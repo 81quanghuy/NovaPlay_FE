@@ -69,9 +69,272 @@ export const mockMovies: Movie[] = [
       current: 6,
       total: 6
     }
-  }
+  },
+  {
+    id: 6,
+    title: 'Barbie',
+    overview: 'Barbie và Ken bước vào thế giới thực và khám phá ý nghĩa thực sự của hạnh phúc.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ctMserH8g2SeOAnCw5gFjdQF8mo.jpg',
+    releaseDate: '2023-07-21',
+    rating: 7.0,
+    genres: ['Hài', 'Phiêu Lưu'],
+    duration: 114,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 7,
+    title: 'Fast X',
+    overview: 'Dom Toretto và gia đình đối mặt với kẻ thù nguy hiểm nhất từ trước đến nay.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fiVW06jE7z9YnO4trhaMEdclSiC.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/4XM8DUTQb3lhLemJC51Jx4a2EuA.jpg',
+    releaseDate: '2023-05-19',
+    rating: 6.2,
+    genres: ['Hành Động', 'Tội Phạm'],
+    duration: 141,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 8,
+    title: 'The Marvels',
+    overview: 'Carol Danvers hợp tác với Kamala Khan và Monica Rambeau để cứu vũ trụ.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/Ag3D9H6jEYk7JzEHkG9Q4m0nF2l.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/6Ys6koNajPj6h5oPZgHn1bVgq5u.jpg',
+    releaseDate: '2023-11-10',
+    rating: 6.1,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Viễn Tưởng'],
+    duration: 105,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 9,
+    title: 'John Wick 4',
+    overview: 'John Wick đối đầu với Hội đồng Tối cao trong trận chiến cuối cùng.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/gh2bmprLtUQ8oXCSluzfqaicyrm.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/1inZm0xxXrpRfN0LxwE2TXzyLN6.jpg',
+    releaseDate: '2023-03-24',
+    rating: 8.0,
+    genres: ['Hành Động', 'Kịch Tính'],
+    duration: 169,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 10,
+    title: 'Mission: Impossible - Dead Reckoning',
+    overview: 'Ethan Hunt và đội IMF đối mặt với mối đe dọa toàn cầu mới.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/NNxYkU70HPurnNCSiCjYAmacwm.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg',
+    releaseDate: '2023-07-12',
+    rating: 7.8,
+    genres: ['Hành Động', 'Phiêu Lưu'],
+    duration: 163,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 11,
+    title: 'Elemental',
+    overview: 'Câu chuyện về thành phố nơi các nguyên tố sống cùng nhau.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/6oH378KUfCEitzJkm07r97L0RsZ.jpg',
+    releaseDate: '2023-06-16',
+    rating: 7.1,
+    genres: ['Hoạt Hình', 'Phiêu Lưu'],
+    duration: 101,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 12,
+    title: 'Spider-Man: No Way Home',
+    overview: 'Peter Parker nhờ Doctor Strange giúp đỡ để bảo vệ bí mật thân phận.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg',
+    releaseDate: '2021-12-17',
+    rating: 8.3,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Viễn Tưởng'],
+    duration: 148,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 13,
+    title: 'Avatar: The Way of Water',
+    overview: 'Jake Sully và Neytiri bảo vệ gia đình trước mối đe dọa mới trên Pandora.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ovM06PdF3M8wvKb06i4sjW3xoww.jpg',
+    releaseDate: '2022-12-16',
+    rating: 7.7,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Viễn Tưởng'],
+    duration: 192,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 14,
+    title: 'The Flash',
+    overview: 'Barry Allen du hành thời gian để cứu mẹ và thay đổi vũ trụ.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rktDFPbfHfUbArZ6OOOKsXcv0Bm.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg',
+    releaseDate: '2023-06-16',
+    rating: 6.8,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Viễn Tưởng'],
+    duration: 144,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 15,
+    title: 'Transformers: Rise of the Beasts',
+    overview: 'Autobots và Maximals hợp lực để bảo vệ Trái Đất khỏi mối đe dọa mới.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/gPbM0MK8CP8A174rmUwGsADNYKD.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/azD31DjpV3PJfjF3h72LVw2WCSD.jpg',
+    releaseDate: '2023-06-09',
+    rating: 6.6,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Khoa Học'],
+    duration: 127,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 16,
+    title: 'Guardians of the Galaxy Vol. 3',
+    overview: 'Nhóm Vệ Binh dấn thân vào một nhiệm vụ nguy hiểm để bảo vệ Rocket.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/r2J02Z2OpNTctfOSN1Ydgii51I3.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/5YZbUmjbMa3ClvSW1Wj3D6XGolb.jpg',
+    releaseDate: '2023-05-05',
+    rating: 8.1,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Hài'],
+    duration: 150,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 17,
+    title: 'The Little Mermaid',
+    overview: 'Ariel, nàng tiên cá trẻ tuổi, khao khát khám phá thế giới con người.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/ym1dxyOk4jFcSl4Q2zmRrA5BEEN.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/6YRQ8l93F9L8lZ9GkXU9jTj8GHZ.jpg',
+    releaseDate: '2023-05-26',
+    rating: 7.2,
+    genres: ['Phiêu Lưu', 'Gia Đình', 'Kỳ Ảo'],
+    duration: 135,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 18,
+    title: 'Indiana Jones and the Dial of Destiny',
+    overview: 'Indiana Jones trở lại trong cuộc phiêu lưu cuối cùng.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/Af4bXE63pVsb2FtbW8uYIyPBadD.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/9EnfMH0nTPCna87Mh3G8Q6W2wze.jpg',
+    releaseDate: '2023-06-30',
+    rating: 6.7,
+    genres: ['Hành Động', 'Phiêu Lưu'],
+    duration: 154,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 19,
+    title: 'Dune: Part Two',
+    overview: 'Paul Atreides liên minh với Chani và Fremen để trả thù những kẻ đã phá hủy gia đình mình.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg',
+    releaseDate: '2024-03-01',
+    rating: 8.5,
+    genres: ['Khoa Học', 'Phiêu Lưu'],
+    duration: 155,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 20,
+    title: 'The Hunger Games: The Ballad of Songbirds & Snakes',
+    overview: 'Câu chuyện về nguồn gốc của Tổng thống Snow và những ngày đầu của Hunger Games.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/6Ys6koNajPj6h5oPZgHn1bVgq5u.jpg',
+    releaseDate: '2023-11-17',
+    rating: 7.4,
+    genres: ['Hành Động', 'Phiêu Lưu', 'Kịch Tính'],
+    duration: 157,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 21,
+    title: 'The Nun II',
+    overview: 'Sơ Irene đối mặt với ác quỷ Valak một lần nữa.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/5gzzkR7y3hnY8AD1wXjCnVlHba5.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/4XM8DUTQb3lhLemJC51Jx4a2EuA.jpg',
+    releaseDate: '2023-09-08',
+    rating: 6.1,
+    genres: ['Kinh Dị', 'Bí Ẩn'],
+    duration: 110,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 22,
+    title: 'Meg 2: The Trench',
+    overview: 'Jonas Taylor và nhóm của anh đối mặt với những sinh vật khổng lồ dưới đáy đại dương.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/4m1Au3YkjqsxF7t5lcfwKkZppL6.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/1inZm0xxXrpRfN0LxwE2TXzyLN6.jpg',
+    releaseDate: '2023-08-04',
+    rating: 5.7,
+    genres: ['Hành Động', 'Kinh Dị'],
+    duration: 116,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 23,
+    title: 'Evil Dead Rise',
+    overview: 'Hai chị em bị cuốn vào cơn ác mộng khi cuốn sách chết chóc được phát hiện.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/mIBCtPvKZQlxubxKMeViO2UrP3q.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/9EnfMH0nTPCna87Mh3G8Q6W2wze.jpg',
+    releaseDate: '2023-04-21',
+    rating: 6.7,
+    genres: ['Kinh Dị'],
+    duration: 97,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 24,
+    title: 'The Exorcist: Believer',
+    overview: 'Hai cô gái trẻ bị quỷ ám và cha mẹ họ tìm kiếm sự giúp đỡ.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2bXbqYdUdNVa8VIWXVfclP2ICtT.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/6YRQ8l93F9L8lZ9GkXU9jTj8GHZ.jpg',
+    releaseDate: '2023-10-06',
+    rating: 5.9,
+    genres: ['Kinh Dị', 'Bí Ẩn'],
+    duration: 111,
+    quality: 'FHD',
+    type: 'movie'
+  },
+  {
+    id: 25,
+    title: 'Haunted Mansion',
+    overview: 'Một gia đình chuyển đến biệt thự ma ám và phát hiện ra những bí mật kinh hoàng.',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8Im6DknDVxRiGXc5t8rVOJyzuNx.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/azD31DjpV3PJfjF3h72LVw2WCSD.jpg',
+    releaseDate: '2023-07-28',
+    rating: 6.3,
+    genres: ['Kinh Dị', 'Hài'],
+    duration: 123,
+    quality: 'FHD',
+    type: 'movie'
+  },
 ];
 
-export const getTrendingMovies = (): Movie[] => mockMovies.slice(0, 3);
-export const getNewMovies = (): Movie[] => mockMovies.slice(1, 5);
-export const getUpcomingMovies = (): Movie[] => mockMovies.slice(2); 
+// Phân bổ: trending 1-10, new 6-15, upcoming 11-20
+export const getSliderMovies = (): Movie[] => mockMovies.slice(0, 5);
+
+export const getTrendingMovies = (): Movie[] => mockMovies.slice(0, 10);
+export const getNewMovies = (): Movie[] => mockMovies.slice(5, 15);
+export const getUpcomingMovies = (): Movie[] => mockMovies.slice(10, 20); 

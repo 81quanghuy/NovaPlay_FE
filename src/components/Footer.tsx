@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-800 py-8 text-gray-300">
-      <div className="container mx-auto px-4">
+      <div className="mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* About */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Về CinemaZone</h3>
+            <h3 className="mb-4 text-lg font-semibold text-white">Về NovaPLay</h3>
             <p className="text-sm">
-              CinemaZone là website xem phim trực tuyến với kho phim đồ sộ, đa dạng thể loại và
+              NovaPLay là website xem phim trực tuyến với kho phim đồ sộ, đa dạng thể loại và
               cập nhật nhanh chóng.
             </p>
           </div>
@@ -73,15 +73,15 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="mb-4 text-lg font-semibold text-white">Liên Hệ</h3>
             <ul className="space-y-2 text-sm">
-              <li>Email: contact@cinemazone.com</li>
-              <li>Telegram: @cinemazone</li>
-              <li>Facebook: CinemaZone Official</li>
+              <li>Email: contact@NovaPLay.com</li>
+              <li>Telegram: @NovaPLay</li>
+              <li>Facebook: NovaPLay Official</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-8 border-t border-gray-700 pt-8 text-center text-sm">
-          <p>&copy; 2024 CinemaZone. Tất cả quyền được bảo lưu.</p>
+          <p>&copy; 2024 NovaPLay. Tất cả quyền được bảo lưu.</p>
         </div>
       </div>
     </footer>

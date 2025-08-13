@@ -1,62 +1,50 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { authService } from '../features/auth/authService';
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-}
+import { useKeycloak } from '@react-keycloak/web';
+import { formatDisplayName } from '../utils/formatName';
 
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const { keycloak, initialized } = useKeycloak();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setUser(null);
-        setIsLoading(false);
-        return;
+  const user = keycloak.authenticated
+    ? {
+        id: keycloak.tokenParsed?.sub || '',
+        email: keycloak.tokenParsed?.email || '',
+        name: formatDisplayName(
+          keycloak.tokenParsed?.name ||
+          keycloak.tokenParsed?.preferred_username ||
+          ''
+        ),
       }
+    : null;
 
-      try {
-        const userData = await authService.getCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        localStorage.removeItem('token');
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  const login = async (email: string, password: string) => {
-    try {
-      const response = await authService.login({ email, password });
-      localStorage.setItem('token', response.token);
-      setUser(response.user);
-      navigate('/');
-    } catch (error) {
-      throw error;
-    }
+  const login = () => {
+    keycloak.login({
+      redirectUri: window.location.origin + '/auth',
+    });
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    setUser(null);
-    navigate('/auth');
+    keycloak.logout({
+      redirectUri: window.location.origin,
+    });
+  };
+
+  const getToken = async () => {
+    await keycloak.updateToken(30);
+    return keycloak.token;
+  };
+
+  const updateToken = async () => {
+    await keycloak.updateToken(30);
   };
 
   return {
     user,
-    isLoading,
+    isLoading: !initialized,
+    isAuthenticated: keycloak.authenticated,
     login,
-    logout
+    logout,
+    getToken,
+    updateToken,
+    keycloak, // Export keycloak instance for advanced usage
   };
-}; 
+};

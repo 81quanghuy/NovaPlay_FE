@@ -1,6 +1,7 @@
 export interface Movie {
   id: number;
   title: string;
+  originalTitle?: string;
   overview: string;
   posterUrl: string;
   backdropUrl: string;
@@ -14,4 +15,7 @@ export interface Movie {
     current: number;
     total: number;
   };
+  tags?: string[];
+  year?: number;
+  season?: number;
 } 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { router } from '@/routes';
 
 const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
@@ -30,7 +31,7 @@ apiClient.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
-      window.location.href = '/auth';
+      router.navigate('/auth', { replace: true });
     }
     return Promise.reject(error);
   }

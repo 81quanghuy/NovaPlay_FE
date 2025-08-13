@@ -1,4 +1,5 @@
 import { Film, Popcorn, Clapperboard, Home, ArrowLeft } from "lucide-react"
+import { Link } from "react-router-dom"
 import { Button } from "@/components/Button"
 
 export default function NotFound() {
@@ -25,28 +26,26 @@ export default function NotFound() {
           4<span className="text-red-500">0</span>4
         </h1>
 
-        <h2 className="text-2xl font-semibold tracking-tight">Scene Not Found!</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Không tìm thấy trang</h2>
 
         <p className="text-gray-400">
-          Oops! Looks like this film reel is missing. The movie you're looking for isn't playing on this screen.
+          Có vẻ như cuộn phim này đã mất. Trang bạn đang tìm hiện không tồn tại hoặc đã được di chuyển.
         </p>
 
         {/* Navigation buttons */}
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-          <Button
-            className="flex items-center gap-2 bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-            onClick={() => (window.location.href = "/")}
-          >
-            <Home className="h-4 w-4" />
-            Back to Main Screen
-          </Button>
-          <Button
-            className="flex items-center gap-2 border border-gray-700 bg-transparent px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white"
-            onClick={() => (window.location.href = "/movies")}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Browse Movies
-          </Button>
+          <Link to="/">
+            <Button className="flex items-center gap-2 bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+              <Home className="h-4 w-4" />
+              Về trang chủ
+            </Button>
+          </Link>
+          <Link to="/movies">
+            <Button className="flex items-center gap-2 border border-gray-700 bg-transparent px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
+              <ArrowLeft className="h-4 w-4" />
+              Xem phim
+            </Button>
+          </Link>
         </div>
 
         {/* Decorative dots */}

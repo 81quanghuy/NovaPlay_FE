@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBooking } from './hooks/useBooking';
 import SeatSelector from './SeatSelector';
-import { Button, Loader } from '../../components';
+import { Button, Loading } from '../../components';
 
 interface ShowTime {
   id: string;
@@ -18,7 +18,7 @@ const BookingPage = () => {
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Loader size="lg" />
+        <Loading />
       </div>
     );
   }

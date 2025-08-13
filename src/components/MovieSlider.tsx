@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Clock, Star } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Clock, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../types/movie';
 
@@ -10,59 +10,110 @@ interface MovieSliderProps {
 const MovieSlider: React.FC<MovieSliderProps> = ({ movies }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isTextAnimating, setIsTextAnimating] = useState(false);
+
+  // Smooth auto-advance controller
+  const SLIDE_MS = 5000;
+  const timeoutRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number>(0);
+  const remainingRef = useRef<number>(SLIDE_MS);
+
+  const clearAdvanceTimeout = () => {
+    if (timeoutRef.current) {
+      window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex === movies.length - 1 ? 0 : prevIndex + 1
     );
+    setIsTextAnimating(true);
+    setTimeout(() => setIsTextAnimating(false), 400);
   }, [movies.length]);
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
-    );
+  const scheduleAdvance = useCallback((delay: number) => {
+    clearAdvanceTimeout();
+    startTimeRef.current = Date.now();
+    timeoutRef.current = window.setTimeout(() => {
+      nextSlide();
+      remainingRef.current = SLIDE_MS;
+      scheduleAdvance(SLIDE_MS);
+    }, delay);
+  }, [nextSlide]);
+
+  // Auto-advance with pause/resume on hover
+  useEffect(() => {
+    scheduleAdvance(remainingRef.current);
+    return () => clearAdvanceTimeout();
+  }, [scheduleAdvance]);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    // Pause auto-advance
+    const elapsed = Date.now() - startTimeRef.current;
+    remainingRef.current = Math.max(0, remainingRef.current - elapsed);
+    clearAdvanceTimeout();
   };
 
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-    if (!isHovered) {
-      intervalId = setInterval(() => {
-        nextSlide();
-      }, 5000);
-    }
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [nextSlide, isHovered]);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    // Resume with remaining time
+    scheduleAdvance(Math.max(0, remainingRef.current));
+  };
 
   if (!movies.length) return null;
+
+  const lastThumbClickRef = useRef<number>(0);
+  const handleThumbnailClick = (index: number) => {
+    const now = Date.now();
+    if (now - lastThumbClickRef.current < 200) return; // debounce rapid clicks
+    lastThumbClickRef.current = now;
+    setCurrentIndex(index);
+    setIsTextAnimating(true);
+    setTimeout(() => setIsTextAnimating(false), 400);
+    remainingRef.current = SLIDE_MS;
+    scheduleAdvance(SLIDE_MS);
+  };
+
+  // Preload next backdrop image for smoother transitions
+  useEffect(() => {
+    if (!movies.length) return;
+    const next = movies[(currentIndex + 1) % movies.length];
+    const img = new Image();
+    img.src = next.backdropUrl;
+  }, [currentIndex, movies]);
 
   const movie = movies[currentIndex];
 
   return (
     <div className="relative">
       {/* Main Slider */}
-      <div 
-        className="group relative h-[400px] overflow-hidden rounded-lg md:h-[600px]"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+      <div
+        className="group relative h-[500px] overflow-hidden rounded-lg md:h-[760px]"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {/* Background Image with Ken Burns Effect */}
+        {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[10000ms] ease-in-out group-hover:scale-110"
           style={{
             backgroundImage: `url(${movie.backdropUrl})`,
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
+          <div className="absolute left-0 top-0 h-full w-1/5 pointer-events-none bg-gradient-to-r from-[#1b1e27] via-transparent to-transparent"></div>
+          <div className="absolute right-0 top-0 h-full w-1/5 pointer-events-none bg-gradient-to-l from-[#1b1e27] via-transparent to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-1/4 pointer-events-none bg-gradient-to-t from-[#1b1e27] via-transparent to-transparent"></div>
+          <div className="absolute top-0 left-0 w-full h-1/6 pointer-events-none bg-gradient-to-b from-[#1b1e27] via-transparent to-transparent"></div>
         </div>
 
         {/* Content */}
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl space-y-6">
+          <div className="px-8 w-full">
+            <div className={`max-w-2xl space-y-6 bg-black/60 rounded-xl p-6 shadow-lg backdrop-blur-sm transition-all duration-500
+              ${isTextAnimating ? 'opacity-0 -translate-x-8' : 'opacity-100 translate-x-0'}`}
+            >
               {/* Genres */}
               <div className="flex flex-wrap gap-2">
                 {movie.genres.map((genre) => (
@@ -116,32 +167,16 @@ const MovieSlider: React.FC<MovieSliderProps> = ({ movies }) => {
             </div>
           </div>
         </div>
-
-        {/* Navigation Buttons */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-3 text-white opacity-0 transition hover:bg-black/75 group-hover:opacity-100"
-        >
-          <ChevronLeft size={30} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-3 text-white opacity-0 transition hover:bg-black/75 group-hover:opacity-100"
-        >
-          <ChevronRight size={30} />
-        </button>
       </div>
-
       {/* Thumbnails */}
       <div className="absolute bottom-4 right-4 z-10">
         <div className="flex gap-2">
           {movies.map((movie, index) => (
             <button
               key={movie.id}
-              onClick={() => setCurrentIndex(index)}
-              className={`relative flex-shrink-0 transition duration-300 ${
-                index === currentIndex ? 'opacity-100' : 'opacity-50 hover:opacity-75'
-              }`}
+              onClick={() => handleThumbnailClick(index)}
+              className={`relative flex-shrink-0 transition duration-300 ${index === currentIndex ? 'opacity-100' : 'opacity-50 hover:opacity-75'
+                }`}
             >
               <div className="relative h-16 w-28 overflow-hidden rounded">
                 <img
@@ -149,14 +184,15 @@ const MovieSlider: React.FC<MovieSliderProps> = ({ movies }) => {
                   alt={movie.title}
                   className="h-full w-full object-cover"
                 />
-                <div className={`absolute inset-0 ${
-                  index === currentIndex ? 'bg-transparent ring-2 ring-red-500' : 'bg-black/40'
-                }`}></div>
+                <div className={`absolute inset-0 ${index === currentIndex ? 'bg-transparent ring-2 ring-red-500' : 'bg-black/40'
+                  }`}></div>
               </div>
-              <div className={`absolute bottom-0 left-0 h-0.5 w-full overflow-hidden bg-gray-600 ${
-                index === currentIndex ? 'block' : 'hidden'
-              }`}>
-                <div className="h-full w-full bg-red-500 animate-progress origin-left"></div>
+              <div className={`absolute bottom-0 left-0 h-0.5 w-full overflow-hidden bg-gray-600 ${index === currentIndex ? 'block' : 'hidden'
+                }`}>
+                <div
+                  className="h-full w-full bg-red-500 animate-progress origin-left"
+                  style={{ animationPlayState: isHovered ? 'paused' as const : 'running' as const }}
+                ></div>
               </div>
             </button>
           ))}

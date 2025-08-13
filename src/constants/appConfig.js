@@ -1,6 +1,6 @@
 export const APP_CONFIG = {
   API_URL: import.meta.env.REACT_APP_API_URL || 'http://localhost:3001/api',
-  APP_NAME: 'CinemaZone',
+  APP_NAME: 'NovaPLay',
   DEFAULT_LANGUAGE: 'vi',
   SUPPORTED_LANGUAGES: ['vi', 'en'],
   DEFAULT_CURRENCY: 'VND',

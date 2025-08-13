@@ -1,7 +1,6 @@
-import React from 'react';
 import { useFetchMovies } from './hooks/useFetchMovies';
 import MovieCard from './MovieCard';
-import { Loader } from '../../components';
+import { Loading } from '@/components';
 
 const MovieListPage = () => {
   const { movies, isLoading, error } = useFetchMovies();
@@ -9,7 +8,7 @@ const MovieListPage = () => {
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Loader size="lg" />
+        <Loading/>
       </div>
     );
   }
