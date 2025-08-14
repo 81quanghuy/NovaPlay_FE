@@ -60,6 +60,27 @@ const HomePage: React.FC = () => {
         </div>
         <MovieGrid movies={upcomingMovies} />
       </section>
+
+      {/* All Movies Grid Section */}
+      <section className='mx-auto px-4 py-6'>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Tất Cả Phim</h2>
+          <Link to={"/phim-grid"}
+            className="text-sm text-red-500 hover:underline"
+          >
+            Xem tất cả
+          </Link>
+        </div>
+        <div className="text-center py-8">
+          <p className="text-gray-400 mb-4">Khám phá bộ sưu tập phim đa dạng với hơn 50 tác phẩm</p>
+          <Link
+            to="/phim-grid"
+            className="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors"
+          >
+            Khám Phá Ngay
+          </Link>
+        </div>
+      </section>
     </div>
   );
 };

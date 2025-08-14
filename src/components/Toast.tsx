@@ -9,12 +9,12 @@ interface ToastProps {
   duration?: number;
 }
 
-export default function Toast({ 
-  message, 
-  type, 
-  isVisible, 
-  onClose, 
-  duration = 5000 
+export default function Toast({
+  message,
+  type,
+  isVisible,
+  onClose,
+  duration = 5000
 }: ToastProps) {
   useEffect(() => {
     if (isVisible) {
@@ -28,12 +28,12 @@ export default function Toast({
 
   if (!isVisible) return null;
 
-  const bgColor = type === 'success' 
-    ? 'bg-green-500 dark:bg-green-600' 
+  const bgColor = type === 'success'
+    ? 'bg-green-500 dark:bg-green-600'
     : 'bg-red-500 dark:bg-red-600';
-  
-  const icon = type === 'success' 
-    ? <CheckCircle className="w-5 h-5 text-white" /> 
+
+  const icon = type === 'success'
+    ? <CheckCircle className="w-5 h-5 text-white" />
     : <XCircle className="w-5 h-5 text-white" />;
 
   return (

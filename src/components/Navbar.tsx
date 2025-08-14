@@ -182,7 +182,7 @@ const Navbar: React.FC<NavbarProps> = ({ isTransparent }) => {
               )}
             </div>
 
-            <Link to="/movies" className="text-gray-300 hover:text-white transition-colors">
+            <Link to="/phim-grid" className="text-gray-300 hover:text-white transition-colors">
               Phim Lẻ
             </Link>
             <Link to="/series" className="text-gray-300 hover:text-white transition-colors">
@@ -381,7 +381,7 @@ const Navbar: React.FC<NavbarProps> = ({ isTransparent }) => {
               </div>
 
               <Link
-                to="/movies"
+                to="/phim-grid"
                 className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >

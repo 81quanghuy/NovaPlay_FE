@@ -35,6 +35,72 @@ body {
   .delay-200 {
     animation-delay: 200ms;
   }
+
+  /* Hide scrollbar for horizontal scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+  }
+
+  /* Toast animation */
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Video player slider styles */
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .slider::-webkit-slider-track {
+    background: rgba(75, 85, 99, 0.5);
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #ef4444;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .slider::-moz-range-track {
+    background: rgba(75, 85, 99, 0.5);
+    height: 4px;
+    border-radius: 2px;
+    border: none;
+  }
+
+  .slider::-moz-range-thumb {
+    background: #ef4444;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
 }
 
 @layer base {

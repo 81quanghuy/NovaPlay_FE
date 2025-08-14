@@ -6,6 +6,8 @@ import ProfilePage from "@/pages/ProfilePage";
 import NotFound from "@/pages/NotFound";
 import MovieListPage from "@/features/movies/MovieListPage";
 import MovieDetailPage from "@/pages/MovieDetailPage";
+import MovieGridPage from "@/pages/MovieGridPage";
+import MovieWatchPage from "@/pages/MovieWatchPage";
 export const router = createBrowserRouter([
   {
     element: <MainLayout />,
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: "/phim/:id",
         element: <MovieDetailPage />
+      },
+      {
+        path: "/phim-grid",
+        element: <MovieGridPage />
+      },
+      {
+        path: "/xem-phim/:id",
+        element: <MovieWatchPage />
       },
       // {
       //   path: "job",
