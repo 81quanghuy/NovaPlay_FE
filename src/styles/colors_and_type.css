@@ -1,0 +1,67 @@
+/* =============================================================
+   NovaPlay Design System — Core Tokens
+   Dark cinematic theme inspired by modern streaming services.
+   ============================================================= */
+
+:root {
+  /* ---------- COLOR — SURFACES ---------- */
+  --np-bg: #07090f;
+  --np-bg-2: #0b0f17;
+  --np-surface: #11151f;
+  --np-surface-2: #181d2a;
+  --np-surface-3: #222a3a;
+  --np-overlay: rgba(7, 9, 15, 0.78);
+  --np-overlay-soft: rgba(7, 9, 15, 0.4);
+  --np-glass: rgba(255, 255, 255, 0.04);
+
+  /* ---------- COLOR — BORDERS ---------- */
+  --np-border: rgba(255, 255, 255, 0.08);
+  --np-border-strong: rgba(255, 255, 255, 0.16);
+  --np-border-accent: rgba(255, 44, 85, 0.55);
+
+  /* ---------- COLOR — TEXT ---------- */
+  --np-fg: #ffffff;
+  --np-fg-1: #e8ecf3;
+  --np-fg-2: #a8b0c0;
+  --np-fg-3: #6b7385;
+  --np-fg-disabled: #444a59;
+
+  /* ---------- COLOR — BRAND ---------- */
+  --np-primary: #ff2c55;
+  --np-primary-hover: #ff4d6f;
+  --np-primary-press: #e01441;
+  --np-primary-soft: rgba(255, 44, 85, 0.16);
+
+  --np-gold: #ffc83a;
+  --np-gold-soft: rgba(255, 200, 58, 0.14);
+  --np-cyan: #2ad4ff;
+  --np-cyan-soft: rgba(42, 212, 255, 0.14);
+
+  /* ---------- COLOR — SEMANTIC ---------- */
+  --np-success: #2ecc71;
+  --np-warning: #ffb020;
+  --np-danger: #ff4d4f;
+  --np-info: #5b8def;
+
+  /* ---------- LAYOUT ---------- */
+  --np-container: 1440px;
+  --np-nav-h: 64px;
+
+  /* ---------- GRADIENTS ---------- */
+  --np-grad-hero-bottom: linear-gradient(
+    180deg,
+    rgba(7, 9, 15, 0) 0%,
+    rgba(7, 9, 15, 0.4) 40%,
+    rgba(7, 9, 15, 0.85) 75%,
+    #07090f 100%
+  );
+  --np-grad-hero-left: linear-gradient(
+    90deg,
+    #07090f 0%,
+    rgba(7, 9, 15, 0.85) 25%,
+    rgba(7, 9, 15, 0.3) 65%,
+    rgba(7, 9, 15, 0) 100%
+  );
+  --np-grad-brand: linear-gradient(135deg, #ff2c55 0%, #ff6a3d 100%);
+  --np-grad-gold: linear-gradient(135deg, #ffd56b 0%, #ffae00 100%);
+}
