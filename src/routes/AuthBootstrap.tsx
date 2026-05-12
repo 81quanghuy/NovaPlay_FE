@@ -1,12 +1,12 @@
 import { useEffect, useRef, type ReactNode } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { refreshTokenStorage } from '@/store/refreshTokenStorage';
 import { authService } from '@/features/auth/services/authService';
-import { apiClient } from '@/lib/api/client';
+import { postWithoutAuth } from '@/lib/api/client';
 import { ENDPOINTS } from '@/lib/api/endpoints';
 import type { AuthResponse } from '@/lib/api/types';
 import { Logo } from '@/features/auth/components/Logo';
-import { Loader2 } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
@@ -33,11 +33,9 @@ export function AuthBootstrap({ children }: Props) {
     setStatus('loading');
     (async () => {
       try {
-        const res = await apiClient.post<AuthResponse>(
-          ENDPOINTS.auth.refresh,
-          { refresh_token: refreshToken },
-          { _skipAuth: true } as Parameters<typeof apiClient.post>[2],
-        );
+        const res = await postWithoutAuth<AuthResponse>(ENDPOINTS.auth.refresh, {
+          refresh_token: refreshToken,
+        });
         setAuth(res.data);
         const me = await authService.me();
         setUser(me);
@@ -53,7 +51,7 @@ export function AuthBootstrap({ children }: Props) {
         <div className="flex flex-col items-center gap-4">
           <Logo size="lg" />
           <Loader2 className="w-6 h-6 animate-spin text-primary" />
-          <p className="text-sm text-fg-2">Đang khởi động...</p>
+          <p className="text-sm text-fg-2">Đang khởi động...</p>
         </div>
       </div>
     );
