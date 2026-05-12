@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css"><style>
+body{margin:0;padding:20px;background:var(--np-bg);font-family:var(--np-font-body);color:var(--np-fg-1);font-size:13px}
+table{width:100%;border-collapse:collapse}
+td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.k{font-family:var(--np-font-mono);font-size:11px;color:var(--np-fg-3);width:140px}
+.v{color:#fff}
+.demo{display:inline-block;width:64px;height:18px;background:linear-gradient(90deg,#ff2c55,#ff6a3d);border-radius:4px;animation:slide 2.4s var(--np-ease-out) infinite}
+@keyframes slide{0%,100%{transform:translateX(0)}50%{transform:translateX(80px)}}
+</style></head><body>
+<table>
+<tr><td class="k">--np-dur-fast</td><td class="v">120 ms</td><td>focus rings, micro-tap</td></tr>
+<tr><td class="k">--np-dur-base</td><td class="v">240 ms</td><td>hover, color/scale</td></tr>
+<tr><td class="k">--np-dur-slow</td><td class="v">420 ms</td><td>slide transition, fade-in</td></tr>
+<tr><td class="k">ease-out</td><td class="v">cubic-bezier(.22,.61,.36,1)</td><td>default — feels snappy</td></tr>
+<tr><td class="k">ease-spring</td><td class="v">cubic-bezier(.34,1.56,.64,1)</td><td>card hover bounce</td></tr>
+<tr><td colspan="3" style="padding-top:12px"><div class="demo"></div></td></tr>
+</table>
+</body></html>

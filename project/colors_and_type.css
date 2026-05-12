@@ -1,0 +1,229 @@
+/* =============================================================
+   NovaPlay Design System — Core Tokens
+   Dark cinematic theme inspired by modern streaming services
+   (Netflix, rophim10). Vietnamese content first.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---------- COLOR — SURFACES ---------- */
+  /* Background ladder: page is deepest, surfaces step up by ~6%
+     luminance so cards visibly sit above the page. */
+  --np-bg:               #07090f;   /* page background, deepest */
+  --np-bg-2:             #0b0f17;   /* below-nav area, hero base */
+  --np-surface:          #11151f;   /* default card / panel */
+  --np-surface-2:        #181d2a;   /* raised — modals, hover */
+  --np-surface-3:        #222a3a;   /* highest — tooltip, pop */
+  --np-overlay:          rgba(7, 9, 15, 0.78);   /* scrim on imagery */
+  --np-overlay-soft:     rgba(7, 9, 15, 0.40);
+  --np-glass:            rgba(255, 255, 255, 0.04); /* frosted chip */
+
+  /* ---------- COLOR — BORDERS ---------- */
+  --np-border:           rgba(255, 255, 255, 0.08);
+  --np-border-strong:    rgba(255, 255, 255, 0.16);
+  --np-border-accent:    rgba(255, 44, 85, 0.55);
+
+  /* ---------- COLOR — TEXT ---------- */
+  --np-fg:               #ffffff;
+  --np-fg-1:             #e8ecf3;   /* primary body */
+  --np-fg-2:             #a8b0c0;   /* secondary, meta */
+  --np-fg-3:             #6b7385;   /* muted, captions */
+  --np-fg-disabled:      #444a59;
+
+  /* ---------- COLOR — BRAND ---------- */
+  /* The cherry-red is the single hero accent. Use sparingly:
+     primary CTA, active state, brand mark, "hot" badges. */
+  --np-primary:          #ff2c55;
+  --np-primary-hover:    #ff4d6f;
+  --np-primary-press:    #e01441;
+  --np-primary-soft:     rgba(255, 44, 85, 0.16);
+
+  /* Gold pairs with red — used for ratings and premium badges. */
+  --np-gold:             #ffc83a;
+  --np-gold-soft:        rgba(255, 200, 58, 0.14);
+
+  /* Cool secondary for info/links inside player UI */
+  --np-cyan:             #2ad4ff;
+  --np-cyan-soft:        rgba(42, 212, 255, 0.14);
+
+  /* ---------- COLOR — SEMANTIC ---------- */
+  --np-success:          #2ecc71;
+  --np-warning:          #ffb020;
+  --np-danger:           #ff4d4f;
+  --np-info:             #5b8def;
+
+  /* ---------- COLOR — QUALITY BADGES ---------- */
+  --np-q-4k:             #ff8a00;
+  --np-q-fhd:            #2ad4ff;
+  --np-q-hd:             #6b7385;
+  --np-q-cam:            #ff4d4f;
+
+  /* ---------- TYPE — FAMILIES ---------- */
+  --np-font-display:     'Manrope', 'Be Vietnam Pro', system-ui, sans-serif;
+  --np-font-body:        'Be Vietnam Pro', 'Inter', system-ui, sans-serif;
+  --np-font-mono:        'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* ---------- TYPE — SIZES ---------- */
+  --np-text-xs:          11px;
+  --np-text-sm:          13px;
+  --np-text-base:        15px;
+  --np-text-lg:          17px;
+  --np-text-xl:          20px;
+  --np-text-2xl:         24px;
+  --np-text-3xl:         32px;
+  --np-text-4xl:         44px;
+  --np-text-5xl:         60px;
+  --np-text-6xl:         80px;
+
+  /* ---------- TYPE — WEIGHTS ---------- */
+  --np-fw-regular:       400;
+  --np-fw-medium:        500;
+  --np-fw-semibold:      600;
+  --np-fw-bold:          700;
+  --np-fw-extrabold:     800;
+
+  /* ---------- TYPE — LINE HEIGHT ---------- */
+  --np-lh-tight:         1.05;
+  --np-lh-snug:          1.25;
+  --np-lh-normal:        1.5;
+  --np-lh-loose:         1.7;
+
+  /* ---------- TYPE — TRACKING ---------- */
+  --np-track-tight:      -0.02em;
+  --np-track-normal:     0;
+  --np-track-wide:       0.04em;
+  --np-track-caps:       0.08em;
+
+  /* ---------- SPACING (4-px base) ---------- */
+  --np-space-0:          0;
+  --np-space-1:          4px;
+  --np-space-2:          8px;
+  --np-space-3:          12px;
+  --np-space-4:          16px;
+  --np-space-5:          20px;
+  --np-space-6:          24px;
+  --np-space-8:          32px;
+  --np-space-10:         40px;
+  --np-space-12:         48px;
+  --np-space-16:         64px;
+  --np-space-20:         80px;
+
+  /* ---------- RADII ---------- */
+  --np-radius-xs:        4px;
+  --np-radius-sm:        6px;
+  --np-radius-md:        10px;
+  --np-radius-lg:        14px;
+  --np-radius-xl:        20px;       /* poster card corners */
+  --np-radius-2xl:       28px;
+  --np-radius-pill:      999px;
+
+  /* ---------- SHADOWS — soft, cinematic ---------- */
+  --np-shadow-sm:        0 1px 2px rgba(0, 0, 0, 0.40);
+  --np-shadow-md:        0 8px 20px rgba(0, 0, 0, 0.45);
+  --np-shadow-lg:        0 24px 48px rgba(0, 0, 0, 0.55);
+  --np-shadow-glow:      0 0 32px rgba(255, 44, 85, 0.35);
+  --np-shadow-poster:    0 12px 32px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.40);
+
+  /* ---------- MOTION ---------- */
+  --np-ease-out:         cubic-bezier(.22,.61,.36,1);
+  --np-ease-in-out:      cubic-bezier(.65,.05,.36,1);
+  --np-ease-spring:      cubic-bezier(.34,1.56,.64,1);
+  --np-dur-fast:         120ms;
+  --np-dur-base:         240ms;
+  --np-dur-slow:         420ms;
+
+  /* ---------- LAYOUT ---------- */
+  --np-container:        1440px;
+  --np-nav-h:            64px;
+  --np-poster-w:         200px;
+  --np-poster-h:         300px;     /* 2:3 */
+
+  /* ---------- GRADIENTS — recurring motifs ---------- */
+  --np-grad-hero-bottom: linear-gradient(180deg,
+                            rgba(7,9,15,0)   0%,
+                            rgba(7,9,15,.4)  40%,
+                            rgba(7,9,15,.85) 75%,
+                            #07090f          100%);
+  --np-grad-hero-left:   linear-gradient(90deg,
+                            #07090f 0%,
+                            rgba(7,9,15,.85) 25%,
+                            rgba(7,9,15,.30) 65%,
+                            rgba(7,9,15,0)   100%);
+  --np-grad-card-hover:  linear-gradient(180deg,
+                            rgba(0,0,0,0) 30%,
+                            rgba(0,0,0,.65) 65%,
+                            rgba(0,0,0,.95) 100%);
+  --np-grad-brand:       linear-gradient(135deg, #ff2c55 0%, #ff6a3d 100%);
+  --np-grad-gold:        linear-gradient(135deg, #ffd56b 0%, #ffae00 100%);
+}
+
+/* =============================================================
+   SEMANTIC ELEMENTS
+   ============================================================= */
+
+html, body {
+  background: var(--np-bg);
+  color: var(--np-fg-1);
+  font-family: var(--np-font-body);
+  font-size: var(--np-text-base);
+  line-height: var(--np-lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .np-h1 {
+  font-family: var(--np-font-display);
+  font-size: var(--np-text-5xl);
+  font-weight: var(--np-fw-extrabold);
+  line-height: var(--np-lh-tight);
+  letter-spacing: var(--np-track-tight);
+  color: var(--np-fg);
+}
+h2, .np-h2 {
+  font-family: var(--np-font-display);
+  font-size: var(--np-text-3xl);
+  font-weight: var(--np-fw-bold);
+  line-height: var(--np-lh-tight);
+  letter-spacing: var(--np-track-tight);
+  color: var(--np-fg);
+}
+h3, .np-h3 {
+  font-family: var(--np-font-display);
+  font-size: var(--np-text-2xl);
+  font-weight: var(--np-fw-bold);
+  line-height: var(--np-lh-snug);
+  color: var(--np-fg);
+}
+h4, .np-h4 {
+  font-family: var(--np-font-display);
+  font-size: var(--np-text-xl);
+  font-weight: var(--np-fw-semibold);
+  line-height: var(--np-lh-snug);
+  color: var(--np-fg);
+}
+p, .np-body {
+  font-size: var(--np-text-base);
+  line-height: var(--np-lh-normal);
+  color: var(--np-fg-1);
+}
+.np-lead {
+  font-size: var(--np-text-lg);
+  line-height: var(--np-lh-normal);
+  color: var(--np-fg-2);
+}
+.np-meta {
+  font-size: var(--np-text-sm);
+  color: var(--np-fg-2);
+}
+.np-caption {
+  font-size: var(--np-text-xs);
+  color: var(--np-fg-3);
+  text-transform: uppercase;
+  letter-spacing: var(--np-track-caps);
+  font-weight: var(--np-fw-semibold);
+}
+code, .np-mono {
+  font-family: var(--np-font-mono);
+  font-size: 0.92em;
+}

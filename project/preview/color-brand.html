@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css"><style>
+body{margin:0;padding:24px;background:var(--np-bg);font-family:var(--np-font-body);color:var(--np-fg-1)}
+.row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sw{aspect-ratio:1.5/1;border-radius:14px;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;position:relative;overflow:hidden}
+.sw .name{font-size:12px;font-weight:600;color:#fff}
+.sw .hex{font-family:var(--np-font-mono);font-size:11px;opacity:.7;color:#fff}
+.dark .name,.dark .hex{color:#fff}
+</style></head><body>
+<div class="row">
+  <div class="sw" style="background:#ff2c55"><div class="name">primary</div><div class="hex">#FF2C55</div></div>
+  <div class="sw" style="background:#ff4d6f"><div class="name">primary-hover</div><div class="hex">#FF4D6F</div></div>
+  <div class="sw" style="background:#e01441"><div class="name">primary-press</div><div class="hex">#E01441</div></div>
+  <div class="sw" style="background:rgba(255,44,85,0.16);border:1px solid rgba(255,44,85,.4)"><div class="name">primary-soft</div><div class="hex">16% alpha</div></div>
+  <div class="sw" style="background:#ffc83a"><div class="name" style="color:#222">gold</div><div class="hex" style="color:#222">#FFC83A</div></div>
+  <div class="sw" style="background:#2ad4ff"><div class="name" style="color:#03222b">cyan</div><div class="hex" style="color:#03222b">#2AD4FF</div></div>
+  <div class="sw" style="background:linear-gradient(135deg,#ff2c55,#ff6a3d)"><div class="name">brand gradient</div><div class="hex">135° red→orange</div></div>
+  <div class="sw" style="background:linear-gradient(135deg,#ffd56b,#ffae00)"><div class="name" style="color:#3a2400">gold gradient</div><div class="hex" style="color:#3a2400">135°</div></div>
+</div>
+</body></html>

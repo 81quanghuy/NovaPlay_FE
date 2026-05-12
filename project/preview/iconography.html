@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+body{margin:0;padding:20px;background:var(--np-bg);font-family:var(--np-font-body);color:var(--np-fg-1)}
+.note{font-size:11px;color:var(--np-fg-3);margin-bottom:10px;font-family:var(--np-font-mono)}
+.grid{display:grid;grid-template-columns:repeat(10,1fr);gap:10px}
+.cell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;background:var(--np-surface);border-radius:8px;color:var(--np-fg-2)}
+.cell svg{width:20px;height:20px;stroke-width:2}
+.cell:hover{color:#fff;background:var(--np-surface-2)}
+.k{font-size:9px;font-family:var(--np-font-mono);color:var(--np-fg-3)}
+</style></head><body>
+<div class="note">Lucide · stroke 2px · outline-only · 16/18/20/24 px</div>
+<div class="grid">
+  <div class="cell"><i data-lucide="search"></i><span class="k">search</span></div>
+  <div class="cell"><i data-lucide="play"></i><span class="k">play</span></div>
+  <div class="cell"><i data-lucide="star"></i><span class="k">star</span></div>
+  <div class="cell"><i data-lucide="heart"></i><span class="k">heart</span></div>
+  <div class="cell"><i data-lucide="bookmark"></i><span class="k">bookmark</span></div>
+  <div class="cell"><i data-lucide="share-2"></i><span class="k">share</span></div>
+  <div class="cell"><i data-lucide="bell"></i><span class="k">bell</span></div>
+  <div class="cell"><i data-lucide="user"></i><span class="k">user</span></div>
+  <div class="cell"><i data-lucide="chevron-down"></i><span class="k">chev-dn</span></div>
+  <div class="cell"><i data-lucide="menu"></i><span class="k">menu</span></div>
+  <div class="cell"><i data-lucide="x"></i><span class="k">x</span></div>
+  <div class="cell"><i data-lucide="clock"></i><span class="k">clock</span></div>
+  <div class="cell"><i data-lucide="info"></i><span class="k">info</span></div>
+  <div class="cell"><i data-lucide="volume-2"></i><span class="k">volume</span></div>
+  <div class="cell"><i data-lucide="maximize"></i><span class="k">max</span></div>
+  <div class="cell"><i data-lucide="skip-forward"></i><span class="k">skip-fw</span></div>
+  <div class="cell"><i data-lucide="eye"></i><span class="k">eye</span></div>
+  <div class="cell"><i data-lucide="film"></i><span class="k">film</span></div>
+  <div class="cell"><i data-lucide="tv"></i><span class="k">tv</span></div>
+  <div class="cell"><i data-lucide="globe"></i><span class="k">globe</span></div>
+</div>
+<script>lucide.createIcons();</script>
+</body></html>

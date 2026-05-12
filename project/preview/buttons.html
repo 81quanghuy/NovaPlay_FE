@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css"><style>
+body{margin:0;padding:24px;background:var(--np-bg);font-family:var(--np-font-body);color:var(--np-fg-1)}
+.row{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.k{font-family:var(--np-font-mono);font-size:10px;color:var(--np-fg-3);width:80px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s}
+.btn-primary{background:#ff2c55;color:#fff;padding:10px 22px;border-radius:999px}
+.btn-primary:hover{background:#ff4d6f;box-shadow:0 0 32px rgba(255,44,85,.35)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid #fff;padding:9px 22px;border-radius:999px}
+.btn-outline:hover{background:#fff;color:#0b0f17}
+.btn-ghost{background:rgba(255,255,255,.06);color:#e8ecf3;padding:8px 14px;border-radius:10px;font-size:13px}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-gold{background:#ffc83a;color:#1a1100;padding:9px 18px;border-radius:8px;font-size:14px}
+.btn-icon{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.06);color:#e8ecf3;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.btn-icon:hover{background:rgba(255,255,255,.12);color:#fff}
+svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style></head><body>
+<div class="row"><div class="k">primary</div>
+  <button class="btn btn-primary"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor" stroke="none"/></svg>Xem Phim</button>
+  <button class="btn btn-outline">Chi Tiết</button>
+  <button class="btn btn-gold"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor" stroke="none"/></svg>Xem ngay</button>
+</div>
+<div class="row"><div class="k">secondary</div>
+  <button class="btn btn-ghost">Yêu thích</button>
+  <button class="btn btn-ghost">Chia sẻ</button>
+  <button class="btn btn-icon" aria-label="Yêu thích"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+  <button class="btn btn-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51 15.42 17.49M15.41 6.51 8.59 10.49"/></svg></button>
+</div>
+<div class="row"><div class="k">disabled</div>
+  <button class="btn btn-primary" disabled style="background:#444a59;color:#6b7385;cursor:not-allowed">Đang đăng nhập...</button>
+</div>
+</body></html>

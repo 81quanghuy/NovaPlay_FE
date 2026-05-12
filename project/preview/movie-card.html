@@ -1,0 +1,53 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css"><style>
+body{margin:0;padding:18px;background:var(--np-bg);font-family:var(--np-font-body);color:var(--np-fg-1)}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{position:relative;cursor:pointer}
+.poster{position:relative;aspect-ratio:2/3;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.4)}
+.poster img{width:100%;height:100%;object-fit:cover;display:block}
+.rating{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.75);color:#ffc83a;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:3px}
+.rating svg{width:11px;height:11px;fill:currentColor}
+.genre{position:absolute;top:8px;right:8px;background:#ff2c55;color:#fff;font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px}
+.title{margin-top:8px;font-weight:600;font-size:13px;color:#fff;line-height:1.3;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+.meta{font-size:11px;color:var(--np-fg-2);margin-top:2px;display:flex;gap:6px}
+.hover-card{position:relative}
+.hover-card .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.95));display:flex;flex-direction:column;justify-content:flex-end;padding:12px;border-radius:18px;opacity:1}
+.hover-card h4{font-size:14px;margin:0 0 6px;color:#fff;font-weight:700}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.chips span{font-size:10px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);padding:2px 6px;border-radius:4px}
+.actions{display:flex;gap:4px}
+.actions a{flex:1;text-align:center;font-size:11px;font-weight:600;padding:6px 4px;border-radius:5px;text-decoration:none}
+.a-play{background:#ffc83a;color:#1a1100}
+.a-info{background:rgba(255,255,255,.10);color:#fff}
+</style></head><body>
+<div class="row">
+  <div class="card">
+    <div class="poster">
+      <img src="https://image.tmdb.org/t/p/w500/qhb1qOilapbapxWQn9jtRCMwXJF.jpg" alt="">
+      <div class="rating"><svg viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.3a1 1 0 0 0 .95.68h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 0 0-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12L10 14.25l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 0 0-.36-1.12L3.57 8.72c-.78-.57-.38-1.81.59-1.81H7.6a1 1 0 0 0 .95-.68z"/></svg>7.2</div>
+      <div class="genre">Phiêu Lưu</div>
+    </div>
+    <div class="title">Wonka</div>
+    <div class="meta"><span>2023</span><span>·</span><span>FHD</span></div>
+  </div>
+  <div class="card">
+    <div class="poster">
+      <img src="https://image.tmdb.org/t/p/w500/gh2bmprLtUQ8oXCSluzfqaicyrm.jpg" alt="">
+      <div class="rating"><svg viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.3a1 1 0 0 0 .95.68h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 0 0-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12L10 14.25l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 0 0-.36-1.12L3.57 8.72c-.78-.57-.38-1.81.59-1.81H7.6a1 1 0 0 0 .95-.68z"/></svg>8.0</div>
+      <div class="genre">Hành Động</div>
+    </div>
+    <div class="title">John Wick 4</div>
+    <div class="meta"><span>2023</span><span>·</span><span>4K</span></div>
+  </div>
+  <div class="card hover-card">
+    <div class="poster">
+      <img src="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" alt="">
+      <div class="overlay">
+        <h4>Du Hành Vũ Trụ Nhện</h4>
+        <div class="chips"><span>2023</span><span>FHD</span><span style="background:#ff2c55;border-color:#ff2c55">Hoạt Hình</span></div>
+        <div class="actions"><a class="a-play" href="#">▶ Xem ngay</a><a class="a-info" href="#">Chi tiết</a></div>
+      </div>
+    </div>
+    <div class="title" style="opacity:.5">Hover state ↑</div>
+  </div>
+</div>
+</body></html>
