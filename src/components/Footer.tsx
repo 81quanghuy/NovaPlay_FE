@@ -10,11 +10,11 @@ const FOOTER_COLS = [
 export default function Footer() {
   return (
     <footer style={{
-      marginTop: 80, padding: '56px 64px 32px',
+      marginTop: 80, padding: '56px 80px 32px',
       background: 'linear-gradient(180deg, transparent, rgba(0,0,0,.5))',
       borderTop: '1px solid rgba(255,255,255,.06)',
     }}>
-      <div style={{ maxWidth: 1440, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1760, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.4fr repeat(4, 1fr)', gap: 48, marginBottom: 48 }}>
           <div>
             <NovaPlayLogo size={32} />

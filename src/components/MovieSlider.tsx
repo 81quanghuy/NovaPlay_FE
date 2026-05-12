@@ -37,7 +37,7 @@ export default function HeroSlider({ movies, onOpen }: HeroSliderProps) {
 
       <div style={{
         position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
-        padding: '0 64px', maxWidth: 1440, margin: '0 auto',
+        padding: '0 80px', maxWidth: 1760, margin: '0 auto',
       }}>
         <div style={{
           maxWidth: 620,

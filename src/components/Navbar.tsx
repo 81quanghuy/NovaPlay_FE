@@ -60,7 +60,7 @@ export default function Navbar({ onNav, transparent }: NavbarProps) {
       transition: 'all .35s var(--np-ease-out)',
     }}>
       <div style={{
-        maxWidth: 1440, height: '100%', margin: '0 auto', padding: '0 32px',
+        maxWidth: 1760, height: '100%', margin: '0 auto', padding: '0 48px',
         display: 'flex', alignItems: 'center', gap: 32,
       }}>
         <a href="#" onClick={e => { e.preventDefault(); onNav('home'); }} style={{ textDecoration: 'none' }}>

@@ -36,7 +36,7 @@ export default function MovieDetailScreen({ movie, onBack }: MovieDetailScreenPr
         }} />
 
         <div style={{
-          position: 'absolute', inset: 0, padding: '96px 64px 32px', maxWidth: 1440, margin: '0 auto',
+          position: 'absolute', inset: 0, padding: '96px 80px 32px', maxWidth: 1760, margin: '0 auto',
           display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 48, alignItems: 'end',
         }}>
           <div style={{
@@ -159,7 +159,7 @@ export default function MovieDetailScreen({ movie, onBack }: MovieDetailScreenPr
         </div>
       </div>
 
-      <div style={{ maxWidth: 1440, margin: '0 auto', padding: '24px 64px', display: 'grid', gridTemplateColumns: '1fr 320px', gap: 48 }}>
+      <div style={{ maxWidth: 1760, margin: '0 auto', padding: '24px 80px', display: 'grid', gridTemplateColumns: '1fr 320px', gap: 48 }}>
         <div>
           <div style={{
             display: 'flex', gap: 32, borderBottom: '1px solid rgba(255,255,255,.08)',

@@ -15,7 +15,7 @@ export function MovieRow({ title, movies, onOpen }: MovieRowProps) {
   const canPrev = start > 0;
 
   return (
-    <section style={{ padding: '40px 64px 0', maxWidth: 1440, margin: '0 auto' }}>
+    <section style={{ padding: '40px 80px 0', maxWidth: 1760, margin: '0 auto' }}>
       <div style={{
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
         marginBottom: 20,
@@ -108,10 +108,10 @@ export function TopTen({ movies, onOpen }: TopTenProps) {
   };
 
   return (
-    <section style={{ padding: '40px 0 0', maxWidth: 1440, margin: '0 auto' }}>
+    <section style={{ padding: '40px 0 0', maxWidth: 1760, margin: '0 auto' }}>
       <div style={{
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-        padding: '0 64px', marginBottom: 20,
+        padding: '0 80px', marginBottom: 20,
       }}>
         <h2 style={{
           fontFamily: 'Manrope,sans-serif', fontWeight: 800, fontSize: 26,
@@ -157,7 +157,7 @@ export function TopTen({ movies, onOpen }: TopTenProps) {
         onWheel={onWheel}
         style={{
           display: 'flex', gap: 24, overflowX: 'auto', overflowY: 'hidden',
-          padding: '20px 64px', scrollbarWidth: 'none', msOverflowStyle: 'none',
+          padding: '20px 80px', scrollbarWidth: 'none', msOverflowStyle: 'none',
           scrollSnapType: 'x mandatory',
         } as React.CSSProperties}
       >
