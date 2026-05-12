@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --np-bg:               #07090f;
+  --np-bg-2:             #0b0f17;
+  --np-surface:          #11151f;
+  --np-surface-2:        #181d2a;
+  --np-surface-3:        #222a3a;
+  --np-overlay:          rgba(7, 9, 15, 0.78);
+  --np-overlay-soft:     rgba(7, 9, 15, 0.40);
+  --np-glass:            rgba(255, 255, 255, 0.04);
+
+  --np-border:           rgba(255, 255, 255, 0.08);
+  --np-border-strong:    rgba(255, 255, 255, 0.16);
+  --np-border-accent:    rgba(255, 44, 85, 0.55);
+
+  --np-fg:               #ffffff;
+  --np-fg-1:             #e8ecf3;
+  --np-fg-2:             #a8b0c0;
+  --np-fg-3:             #6b7385;
+  --np-fg-disabled:      #444a59;
+
+  --np-primary:          #ff2c55;
+  --np-primary-hover:    #ff4d6f;
+  --np-primary-press:    #e01441;
+  --np-primary-soft:     rgba(255, 44, 85, 0.16);
+
+  --np-gold:             #ffc83a;
+  --np-gold-soft:        rgba(255, 200, 58, 0.14);
+  --np-cyan:             #2ad4ff;
+  --np-cyan-soft:        rgba(42, 212, 255, 0.14);
+
+  --np-success:          #2ecc71;
+  --np-warning:          #ffb020;
+  --np-danger:           #ff4d4f;
+  --np-info:             #5b8def;
+
+  --np-q-4k:             #ff8a00;
+  --np-q-fhd:            #2ad4ff;
+  --np-q-hd:             #6b7385;
+
+  --np-font-display:     'Manrope', 'Be Vietnam Pro', system-ui, sans-serif;
+  --np-font-body:        'Be Vietnam Pro', 'Inter', system-ui, sans-serif;
+  --np-font-mono:        'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --np-ease-out:         cubic-bezier(.22,.61,.36,1);
+  --np-ease-in-out:      cubic-bezier(.65,.05,.36,1);
+  --np-ease-spring:      cubic-bezier(.34,1.56,.64,1);
+  --np-dur-fast:         120ms;
+  --np-dur-base:         240ms;
+  --np-dur-slow:         420ms;
+
+  --np-container:        1440px;
+  --np-nav-h:            64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--np-bg);
+  color: var(--np-fg-1);
+  font-family: var(--np-font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #1d2330; border-radius: 10px; }
+::-webkit-scrollbar-track { background: #0b0f17; }
