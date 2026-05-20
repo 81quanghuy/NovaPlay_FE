@@ -5,12 +5,35 @@ import { refreshTokenStorage } from '@/store/refreshTokenStorage';
 import { authService } from '@/features/auth/services/authService';
 import { postWithoutAuth } from '@/lib/api/client';
 import { ENDPOINTS } from '@/lib/api/endpoints';
-import type { AuthResponse } from '@/lib/api/types';
+import type { AuthResponse, UserResponse } from '@/lib/api/types';
 import { Logo } from '@/features/auth/components/Logo';
 
 interface Props {
   children: ReactNode;
 }
+
+const DEV_BYPASS_AUTH = true;
+
+const FAKE_ADMIN_USER: UserResponse = {
+  id: 'dev-admin-id',
+  username: 'admin',
+  email: 'admin@novaplay.local',
+  isActive: true,
+  isEmailVerified: true,
+  lastLoginAt: new Date().toISOString(),
+  roles: [
+    { roleName: 'ADMIN', description: 'Administrator (dev bypass)' },
+    { roleName: 'USER', description: 'Standard user (dev bypass)' },
+  ],
+};
+
+const FAKE_AUTH_RESPONSE: AuthResponse = {
+  access_token: 'dev-bypass-access-token',
+  refresh_token: 'dev-bypass-refresh-token',
+  token_type: 'Bearer',
+  expires_in: 60 * 60 * 24,
+  user_profile: FAKE_ADMIN_USER,
+};
 
 export function AuthBootstrap({ children }: Props) {
   const status = useAuthStore((s) => s.status);
@@ -23,6 +46,12 @@ export function AuthBootstrap({ children }: Props) {
   useEffect(() => {
     if (started.current) return;
     started.current = true;
+
+    if (DEV_BYPASS_AUTH) {
+      setAuth(FAKE_AUTH_RESPONSE);
+      setUser(FAKE_ADMIN_USER);
+      return;
+    }
 
     const refreshToken = refreshTokenStorage.get();
     if (!refreshToken) {
