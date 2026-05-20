@@ -39,7 +39,7 @@ export function HomePage() {
             đang chờ bạn.
           </p>
           <div className="flex flex-wrap gap-3 mt-7">
-            <Button variant="primary" leftIcon={<Play className="w-4 h-4 fill-current" />} disabled>
+            <Button variant="primary" leftIcon={<Play className="w-4 h-4 fill-current" />}>
               Khám Phá Phim
             </Button>
             <Button variant="secondary" onClick={logout} loading={isLoading}>
