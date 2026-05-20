@@ -26,8 +26,8 @@ export const registerSchema = z
     email: z.string().trim().email('Email không hợp lệ'),
     password: strongPassword,
     confirmPassword: z.string(),
-    accept: z.literal(true, {
-      errorMap: () => ({ message: 'Bạn cần đồng ý điều khoản' }),
+    accept: z.boolean().refine((v) => v === true, {
+      message: 'Bạn cần đồng ý điều khoản',
     }),
   })
   .refine((d) => d.password === d.confirmPassword, {
