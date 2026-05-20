@@ -19,7 +19,13 @@ export function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { username: '', email: '', password: '', confirmPassword: '', accept: false as never },
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      accept: false,
+    },
   });
 
   return (
