@@ -1,15 +1,16 @@
 import { z } from 'zod';
+import { REGEX, VALIDATION } from '@/config';
 
 const strongPassword = z
   .string()
-  .min(8, 'Mật khẩu tối thiểu 8 ký tự')
-  .regex(/[A-Z]/, 'Cần ít nhất 1 chữ in hoa')
-  .regex(/[a-z]/, 'Cần ít nhất 1 chữ thường')
-  .regex(/[0-9]/, 'Cần ít nhất 1 chữ số')
-  .regex(/[^A-Za-z0-9]/, 'Cần ít nhất 1 ký tự đặc biệt');
+  .min(VALIDATION.PASSWORD_MIN_LENGTH, `Mật khẩu tối thiểu ${VALIDATION.PASSWORD_MIN_LENGTH} ký tự`)
+  .regex(REGEX.PASSWORD_UPPERCASE, 'Cần ít nhất 1 chữ in hoa')
+  .regex(REGEX.PASSWORD_LOWERCASE, 'Cần ít nhất 1 chữ thường')
+  .regex(REGEX.PASSWORD_NUMBER, 'Cần ít nhất 1 chữ số')
+  .regex(REGEX.PASSWORD_SPECIAL, 'Cần ít nhất 1 ký tự đặc biệt');
 
 export const loginSchema = z.object({
-  emailOrUsername: z.string().trim().min(3, 'Tối thiểu 3 ký tự'),
+  emailOrUsername: z.string().trim().min(VALIDATION.USERNAME_MIN_LENGTH, `Tối thiểu ${VALIDATION.USERNAME_MIN_LENGTH} ký tự`),
   password: z.string().min(1, 'Vui lòng nhập mật khẩu'),
   rememberMe: z.boolean().optional(),
 });
@@ -20,9 +21,9 @@ export const registerSchema = z
     username: z
       .string()
       .trim()
-      .min(3, 'Tên đăng nhập tối thiểu 3 ký tự')
-      .max(30, 'Tối đa 30 ký tự')
-      .regex(/^[A-Za-z0-9_.-]+$/, 'Chỉ chứa chữ, số và . _ -'),
+      .min(VALIDATION.USERNAME_MIN_LENGTH, `Tên đăng nhập tối thiểu ${VALIDATION.USERNAME_MIN_LENGTH} ký tự`)
+      .max(VALIDATION.USERNAME_MAX_LENGTH, `Tối đa ${VALIDATION.USERNAME_MAX_LENGTH} ký tự`)
+      .regex(REGEX.USERNAME, 'Chỉ chứa chữ, số và . _ -'),
     email: z.string().trim().email('Email không hợp lệ'),
     password: strongPassword,
     confirmPassword: z.string(),
@@ -37,7 +38,10 @@ export const registerSchema = z
 export type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export const otpSchema = z.object({
-  otp: z.string().regex(/^\d{6}$/, 'Mã gồm 6 chữ số'),
+  otp: z
+    .string()
+    .length(VALIDATION.OTP_LENGTH, `Mã gồm ${VALIDATION.OTP_LENGTH} chữ số`)
+    .regex(REGEX.NUMERIC, `Mã gồm ${VALIDATION.OTP_LENGTH} chữ số`),
 });
 export type OtpFormValues = z.infer<typeof otpSchema>;
 
@@ -49,7 +53,10 @@ export type EmailFormValues = z.infer<typeof emailSchema>;
 export const resetPasswordSchema = z
   .object({
     email: z.string().trim().email('Email không hợp lệ'),
-    otp: z.string().regex(/^\d{6}$/, 'Mã gồm 6 chữ số'),
+    otp: z
+      .string()
+      .length(VALIDATION.OTP_LENGTH, `Mã gồm ${VALIDATION.OTP_LENGTH} chữ số`)
+      .regex(REGEX.NUMERIC, `Mã gồm ${VALIDATION.OTP_LENGTH} chữ số`),
     newPassword: strongPassword,
     confirmNewPassword: z.string(),
   })

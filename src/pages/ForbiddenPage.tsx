@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ShieldX } from 'lucide-react';
-import { Button } from '@/features/auth/components/Button';
+import { Button } from '@/components/ui';
+import { PATHS } from '@/routes/paths';
+
 
 export function ForbiddenPage() {
   return (
@@ -15,7 +17,7 @@ export function ForbiddenPage() {
         <p className="text-fg-2 mb-7">
           Bạn không có quyền xem trang này. Vui lòng liên hệ quản trị viên nếu cần hỗ trợ.
         </p>
-        <Link to="/">
+        <Link to={PATHS.HOME}>
           <Button>Về Trang Chủ</Button>
         </Link>
       </div>

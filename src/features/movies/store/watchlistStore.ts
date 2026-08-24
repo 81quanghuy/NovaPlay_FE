@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { STORAGE_KEYS } from '@/config';
 
 interface WatchlistState {
   ids: string[];
@@ -24,7 +25,7 @@ export const useWatchlistStore = create<WatchlistState>()(
       clear: () => set({ ids: [] }),
     }),
     {
-      name: 'novaplay.watchlist',
+      name: STORAGE_KEYS.WATCHLIST,
       storage: createJSONStorage(() => localStorage),
     },
   ),

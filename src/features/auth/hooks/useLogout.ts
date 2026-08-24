@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { useAuthStore } from '@/store/authStore';
 import { refreshTokenStorage } from '@/store/refreshTokenStorage';
+import { PATHS } from '@/routes/paths';
 
 export function useLogout() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ export function useLogout() {
     } finally {
       reset();
       setIsLoading(false);
-      navigate('/login', { replace: true });
+      navigate(PATHS.LOGIN, { replace: true });
     }
   }
 

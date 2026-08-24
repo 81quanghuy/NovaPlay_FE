@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ClipboardEvent, type KeyboardEvent } from 'react';
+import { VALIDATION } from '@/config';
 
 interface Props {
   value: string;
@@ -9,7 +10,7 @@ interface Props {
   autoFocus?: boolean;
 }
 
-export function OtpInput({ value, onChange, length = 6, error, disabled, autoFocus }: Props) {
+export function OtpInput({ value, onChange, length = VALIDATION.OTP_LENGTH, error, disabled, autoFocus }: Props) {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
   const digits = Array.from({ length }, (_, i) => value[i] ?? '');
 
@@ -54,7 +55,9 @@ export function OtpInput({ value, onChange, length = 6, error, disabled, autoFoc
         {digits.map((d, i) => (
           <input
             key={i}
-            ref={(el) => (refs.current[i] = el)}
+            ref={(el) => {
+              refs.current[i] = el;
+            }}
             inputMode="numeric"
             maxLength={1}
             value={d}

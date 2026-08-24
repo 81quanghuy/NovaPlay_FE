@@ -9,6 +9,7 @@ import { OtpInput } from '../components/OtpInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { Button } from '../components/Button';
 import { Alert } from '../components/Alert';
+import { PATHS } from '@/routes/paths';
 
 export function ResetPasswordPage() {
   const [params] = useSearchParams();
@@ -26,7 +27,7 @@ export function ResetPasswordPage() {
     defaultValues: { email, otp: '', newPassword: '', confirmNewPassword: '' },
   });
 
-  if (!email) return <Navigate to="/forgot-password" replace />;
+  if (!email) return <Navigate to={PATHS.FORGOT_PASSWORD} replace />;
 
   return (
     <AuthLayout
@@ -39,7 +40,7 @@ export function ResetPasswordPage() {
         </>
       }
       footer={
-        <Link to="/login" className="text-fg-2 hover:text-fg">
+        <Link to={PATHS.LOGIN} className="text-fg-2 hover:text-fg">
           Quay lại đăng nhập
         </Link>
       }
@@ -55,7 +56,6 @@ export function ResetPasswordPage() {
               setOtp(v);
               setValue('otp', v, { shouldValidate: v.length === 6 });
             }}
-            autoFocus
             error={errors.otp?.message}
           />
         </div>

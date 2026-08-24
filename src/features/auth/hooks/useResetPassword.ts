@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { extractErrorMessage } from '@/lib/api/client';
 import type { ResetPasswordRequest } from '@/lib/api/types';
+import { PATHS } from '@/routes/paths';
 
 export function useResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +15,7 @@ export function useResetPassword() {
     setError(null);
     try {
       await authService.resetPassword(values);
-      navigate('/login', {
+      navigate(PATHS.LOGIN, {
         replace: true,
         state: { flash: 'Mật khẩu đã được đặt lại. Vui lòng đăng nhập.' },
       });

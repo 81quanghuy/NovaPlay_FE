@@ -6,6 +6,7 @@ import { AuthLayout } from '../components/AuthLayout';
 import { OtpInput } from '../components/OtpInput';
 import { Button } from '../components/Button';
 import { Alert } from '../components/Alert';
+import { PATHS } from '@/routes/paths';
 
 const RESEND_COOLDOWN = 60;
 
@@ -22,7 +23,7 @@ export function VerifyOtpPage() {
     return () => clearInterval(t);
   }, [cooldown]);
 
-  if (!email) return <Navigate to="/register" replace />;
+  if (!email) return <Navigate to={PATHS.REGISTER} replace />;
 
   const onResend = async () => {
     await resend();
@@ -47,7 +48,7 @@ export function VerifyOtpPage() {
         </>
       }
       footer={
-        <Link to="/register" className="text-fg-2 hover:text-fg">
+        <Link to={PATHS.REGISTER} className="text-fg-2 hover:text-fg">
           Quay lại đăng ký
         </Link>
       }
@@ -66,7 +67,6 @@ export function VerifyOtpPage() {
         <OtpInput
           value={otp}
           onChange={setOtp}
-          autoFocus
           error={otpInvalid ? 'Mã gồm đủ 6 chữ số' : undefined}
         />
 

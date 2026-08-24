@@ -1,4 +1,5 @@
 import axios, {
+  isAxiosError,
   AxiosError,
   type AxiosInstance,
   type AxiosRequestConfig,
@@ -6,13 +7,12 @@ import axios, {
 } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { refreshTokenStorage } from '@/store/refreshTokenStorage';
+import { APP_EVENTS, ENV } from '@/config';
 import type { AuthResponse } from './types';
 import { ENDPOINTS } from './endpoints';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
-
 export const apiClient: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: ENV.API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -30,12 +30,49 @@ apiClient.interceptors.request.use((config) => {
 
 let refreshing: Promise<string | null> | null = null;
 
+function notifyAuthExpired() {
+  window.dispatchEvent(new CustomEvent(APP_EVENTS.AUTH_EXPIRED));
+}
+
+function getEndpointPath(url: string): string {
+  try {
+    return new URL(url, ENV.API_URL).pathname;
+  } catch {
+    return url;
+  }
+}
+
+function isSameEndpoint(url: string, endpoint: string): boolean {
+  const path = getEndpointPath(url);
+  const basePath = getEndpointPath(ENV.API_URL).replace(/\/$/, '');
+  return path === endpoint || path === `${basePath}${endpoint}`;
+}
+
+function isAuthEndpoint(url: string): boolean {
+  return [ENDPOINTS.auth.login, ENDPOINTS.auth.refresh, ENDPOINTS.auth.register].some((endpoint) =>
+    isSameEndpoint(url, endpoint),
+  );
+}
+
+function getRefreshPromise(): Promise<string | null> {
+  if (!refreshing) {
+    refreshing = performRefresh().finally(() => {
+      refreshing = null;
+    });
+  }
+  return refreshing;
+}
+
 async function performRefresh(): Promise<string | null> {
   const refreshToken = refreshTokenStorage.get();
-  if (!refreshToken) return null;
+  if (!refreshToken) {
+    useAuthStore.getState().reset();
+    notifyAuthExpired();
+    return null;
+  }
   try {
     const res = await axios.post<AuthResponse>(
-      `${BASE_URL}${ENDPOINTS.auth.refresh}`,
+      `${ENV.API_URL}${ENDPOINTS.auth.refresh}`,
       { refresh_token: refreshToken },
       { headers: { 'Content-Type': 'application/json' } },
     );
@@ -43,6 +80,7 @@ async function performRefresh(): Promise<string | null> {
     return res.data.access_token;
   } catch {
     useAuthStore.getState().reset();
+    notifyAuthExpired();
     return null;
   }
 }
@@ -54,16 +92,9 @@ apiClient.interceptors.response.use(
     const status = error.response?.status;
     const url = original?.url ?? '';
 
-    const isAuthEndpoint =
-      url.includes(ENDPOINTS.auth.login) ||
-      url.includes(ENDPOINTS.auth.refresh) ||
-      url.includes(ENDPOINTS.auth.register);
-
-    if (status === 401 && original && !original._retry && !isAuthEndpoint) {
+    if (status === 401 && original && !original._retry && !isAuthEndpoint(url)) {
       original._retry = true;
-      refreshing = refreshing ?? performRefresh();
-      const newToken = await refreshing;
-      refreshing = null;
+      const newToken = await getRefreshPromise();
       if (newToken) {
         original.headers.set('Authorization', `Bearer ${newToken}`);
         return apiClient.request(original);
@@ -75,7 +106,7 @@ apiClient.interceptors.response.use(
 );
 
 export function extractErrorMessage(err: unknown, fallback = 'Có lỗi xảy ra, vui lòng thử lại'): string {
-  if (axios.isAxiosError(err)) {
+  if (isAxiosError(err)) {
     const data = err.response?.data as { message?: string; error?: string } | undefined;
     return data?.message || data?.error || err.message || fallback;
   }

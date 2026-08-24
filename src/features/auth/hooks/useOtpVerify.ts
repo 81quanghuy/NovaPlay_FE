@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { extractErrorMessage } from '@/lib/api/client';
+import { PATHS } from '@/routes/paths';
 
 export function useOtpVerify(email: string) {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,7 @@ export function useOtpVerify(email: string) {
     setInfo(null);
     try {
       await authService.verifyOtp({ email, otp });
-      navigate('/login', {
+      navigate(PATHS.LOGIN, {
         replace: true,
         state: { flash: 'Xác thực thành công. Vui lòng đăng nhập.' },
       });

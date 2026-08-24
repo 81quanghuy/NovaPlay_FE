@@ -7,7 +7,9 @@ import { useChangePassword } from '../hooks/useChangePassword';
 import { PasswordInput } from '../components/PasswordInput';
 import { Button } from '../components/Button';
 import { Alert } from '../components/Alert';
-import { Navbar } from '@/components/Navbar';
+import { Navbar } from '@/components/layout/Navbar';
+import { PATHS } from '@/routes/paths';
+
 
 export function ChangePasswordPage() {
   const navigate = useNavigate();
@@ -67,7 +69,8 @@ export function ChangePasswordPage() {
               <Button type="submit" loading={isLoading} fullWidth>
                 Lưu Thay Đổi
               </Button>
-              <Button type="button" variant="secondary" onClick={() => navigate('/')}>
+              <Button type="button" variant="secondary" onClick={() => navigate(PATHS.HOME)}>
+
                 Hủy
               </Button>
             </div>

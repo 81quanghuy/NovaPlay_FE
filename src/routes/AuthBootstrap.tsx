@@ -6,15 +6,15 @@ import { authService } from '@/features/auth/services/authService';
 import { postWithoutAuth } from '@/lib/api/client';
 import { ENDPOINTS } from '@/lib/api/endpoints';
 import type { AuthResponse, UserResponse } from '@/lib/api/types';
-import { Logo } from '@/features/auth/components/Logo';
+import { Logo } from '@/components/ui';
+import { FLAGS } from '@/config';
+
 
 interface Props {
   children: ReactNode;
 }
 
-const DEV_BYPASS_AUTH = true;
-
-const FAKE_ADMIN_USER: UserResponse = {
+const DEV_AUTH_USER: UserResponse = {
   id: 'dev-admin-id',
   username: 'admin',
   email: 'admin@novaplay.local',
@@ -32,7 +32,7 @@ const FAKE_AUTH_RESPONSE: AuthResponse = {
   refresh_token: 'dev-bypass-refresh-token',
   token_type: 'Bearer',
   expires_in: 60 * 60 * 24,
-  user_profile: FAKE_ADMIN_USER,
+  user_profile: DEV_AUTH_USER,
 };
 
 export function AuthBootstrap({ children }: Props) {
@@ -47,9 +47,10 @@ export function AuthBootstrap({ children }: Props) {
     if (started.current) return;
     started.current = true;
 
-    if (DEV_BYPASS_AUTH) {
+    if (FLAGS.AUTH_BYPASS) {
+      console.warn('[NovaPlay] AUTH BYPASS đang bật. Chỉ dùng cho môi trường phát triển local.');
       setAuth(FAKE_AUTH_RESPONSE);
-      setUser(FAKE_ADMIN_USER);
+      setUser(DEV_AUTH_USER);
       return;
     }
 
@@ -86,5 +87,14 @@ export function AuthBootstrap({ children }: Props) {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {FLAGS.AUTH_BYPASS && (
+        <div className="fixed inset-x-0 top-0 z-50 bg-danger px-4 py-2 text-center text-sm font-semibold text-white shadow-lg">
+          AUTH BYPASS đang bật - chỉ dùng cho phát triển local.
+        </div>
+      )}
+      {children}
+    </>
+  );
 }

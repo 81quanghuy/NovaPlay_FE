@@ -1,5 +1,6 @@
-import { Navbar } from '@/components/Navbar';
+import { Navbar } from '@/components/layout/Navbar';
 import { ShieldCheck } from 'lucide-react';
+
 
 export function AdminPage() {
   return (

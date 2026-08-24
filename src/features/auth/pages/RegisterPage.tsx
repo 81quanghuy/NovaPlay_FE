@@ -9,6 +9,7 @@ import { FormField } from '../components/FormField';
 import { PasswordInput } from '../components/PasswordInput';
 import { Button } from '../components/Button';
 import { Alert } from '../components/Alert';
+import { PATHS } from '@/routes/paths';
 
 export function RegisterPage() {
   const { submit, isLoading, error } = useRegister();
@@ -35,7 +36,7 @@ export function RegisterPage() {
       footer={
         <>
           Đã có tài khoản?{' '}
-          <Link to="/login" className="text-primary-hover hover:text-primary font-semibold">
+          <Link to={PATHS.LOGIN} className="text-primary-hover hover:text-primary font-semibold">
             Đăng nhập
           </Link>
         </>
@@ -99,13 +100,13 @@ export function RegisterPage() {
           />
           <span>
             Tôi đồng ý với{' '}
-            <a href="#" className="text-primary-hover hover:text-primary font-semibold">
+            <span className="text-primary-hover font-semibold">
               Điều khoản dịch vụ
-            </a>{' '}
+            </span>{' '}
             và{' '}
-            <a href="#" className="text-primary-hover hover:text-primary font-semibold">
+            <span className="text-primary-hover font-semibold">
               Chính sách bảo mật
-            </a>
+            </span>
           </span>
         </label>
         {errors.accept && (

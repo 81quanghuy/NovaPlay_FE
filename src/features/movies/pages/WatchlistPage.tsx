@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Bookmark } from 'lucide-react';
-import { Navbar } from '@/components/Navbar';
-import { Button } from '@/features/auth/components/Button';
+import { Button } from '@/components/ui';
 import { MovieCard } from '../components/MovieCard';
 import { MOVIES } from '../data/movies';
 import { useWatchlistStore } from '../store/watchlistStore';
+import { PATHS } from '@/routes/paths';
 
 export function WatchlistPage() {
   const ids = useWatchlistStore((s) => s.ids);
@@ -12,9 +12,8 @@ export function WatchlistPage() {
   const list = MOVIES.filter((m) => ids.includes(m.id));
 
   return (
-    <div className="min-h-screen bg-bg text-fg-1">
-      <Navbar />
-      <div className="max-w-container mx-auto px-6 lg:px-16 py-10">
+    <div className="max-w-container mx-auto px-6 lg:px-8 py-10">
+
         <header className="flex items-end justify-between mb-8">
           <div>
             <h1 className="font-display font-extrabold text-4xl text-fg">Yêu Thích Của Bạn</h1>
@@ -40,7 +39,7 @@ export function WatchlistPage() {
             <p className="text-fg-2 mb-6 max-w-md mx-auto">
               Khi bạn thêm phim yêu thích, chúng sẽ hiện ra ở đây để dễ dàng xem lại sau.
             </p>
-            <Link to="/movies">
+            <Link to={PATHS.MOVIES}>
               <Button variant="primary">Khám Phá Phim</Button>
             </Link>
           </div>
@@ -51,7 +50,6 @@ export function WatchlistPage() {
             ))}
           </div>
         )}
-      </div>
     </div>
   );
 }

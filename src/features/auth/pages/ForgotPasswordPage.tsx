@@ -8,6 +8,7 @@ import { AuthLayout } from '../components/AuthLayout';
 import { FormField } from '../components/FormField';
 import { Button } from '../components/Button';
 import { Alert } from '../components/Alert';
+import { PATHS } from '@/routes/paths';
 
 export function ForgotPasswordPage() {
   const { submit, isLoading, error } = useForgotPassword();
@@ -31,7 +32,7 @@ export function ForgotPasswordPage() {
       title="Quên Mật Khẩu"
       subtitle="Nhập email để nhận mã đặt lại mật khẩu"
       footer={
-        <Link to="/login" className="text-fg-2 hover:text-fg">
+        <Link to={PATHS.LOGIN} className="text-fg-2 hover:text-fg">
           Quay lại đăng nhập
         </Link>
       }
@@ -44,7 +45,6 @@ export function ForgotPasswordPage() {
           type="email"
           placeholder="ban@novaplay.vn"
           autoComplete="email"
-          autoFocus
           leftIcon={<Mail className="w-4 h-4" />}
           error={errors.email?.message}
           {...register('email')}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search as SearchIcon, X } from 'lucide-react';
-import { Navbar } from '@/components/Navbar';
+import { UI } from '@/config';
 import { MovieCard } from '../components/MovieCard';
 import { searchMovies } from '../data/movies';
 
@@ -15,16 +15,15 @@ export function SearchPage() {
       const trimmed = q.trim();
       if (trimmed) setParams({ q: trimmed }, { replace: true });
       else setParams({}, { replace: true });
-    }, 250);
+    }, UI.SEARCH_DEBOUNCE_MS);
     return () => clearTimeout(t);
   }, [q, setParams]);
 
   const results = useMemo(() => searchMovies(q), [q]);
 
   return (
-    <div className="min-h-screen bg-bg text-fg-1">
-      <Navbar />
-      <div className="max-w-container mx-auto px-6 lg:px-16 py-10">
+    <div className="max-w-container mx-auto px-6 lg:px-8 py-10">
+
         <h1 className="font-display font-extrabold text-4xl text-fg mb-6">Tìm Kiếm</h1>
         <div className="relative max-w-2xl mb-8">
           <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-fg-3" />
@@ -32,7 +31,6 @@ export function SearchPage() {
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            autoFocus
             placeholder="Tìm theo tên phim, thể loại, đạo diễn..."
             className="w-full h-12 bg-surface-2 border border-border rounded-md pl-12 pr-12 text-fg outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 placeholder:text-fg-3"
           />
@@ -68,7 +66,6 @@ export function SearchPage() {
             </div>
           </>
         )}
-      </div>
     </div>
   );
 }

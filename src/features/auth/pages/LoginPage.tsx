@@ -5,11 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail } from 'lucide-react';
 import { loginSchema, type LoginFormValues } from '../schemas';
 import { useLogin } from '../hooks/useLogin';
-import { AuthLayout } from '../components/AuthLayout';
-import { FormField } from '../components/FormField';
-import { PasswordInput } from '../components/PasswordInput';
-import { Button } from '../components/Button';
-import { Alert } from '../components/Alert';
+import { AuthLayout } from '@/components/layout/AuthLayout';
+import { FormField } from '@/components/ui/FormField';
+import { PasswordInput } from '@/components/ui/PasswordInput';
+import { Button } from '@/components/ui/Button';
+import { Alert } from '@/components/ui/Alert';
+import { PATHS } from '@/routes/paths';
 
 interface FlashState {
   flash?: string;
@@ -40,7 +41,7 @@ export function LoginPage() {
       footer={
         <>
           Chưa có tài khoản?{' '}
-          <Link to="/register" className="text-primary-hover hover:text-primary font-semibold">
+          <Link to={PATHS.REGISTER} className="text-primary-hover hover:text-primary font-semibold">
             Đăng ký ngay
           </Link>
         </>
@@ -77,7 +78,7 @@ export function LoginPage() {
             Ghi nhớ đăng nhập
           </label>
           <Link
-            to="/forgot-password"
+            to={PATHS.FORGOT_PASSWORD}
             className="text-primary-hover hover:text-primary font-semibold"
           >
             Quên mật khẩu?
