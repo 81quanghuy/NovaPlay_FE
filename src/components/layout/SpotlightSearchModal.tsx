@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
-  Clock,
   Film,
   Flame,
   Search,
@@ -37,15 +36,21 @@ export function SpotlightSearchModal({ isOpen, onClose }: Props) {
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
-      setQuery('');
     }
   }, [isOpen]);
+
+  const handleClose = () => {
+    setQuery('');
+    onClose();
+  };
 
   // Handle ESC
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        setQuery('');
+        onClose();
+      }
     }
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
@@ -53,20 +58,21 @@ export function SpotlightSearchModal({ isOpen, onClose }: Props) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+
   if (!isOpen) return null;
 
   const results = query.trim() ? searchMovies(query).slice(0, 6) : [];
 
   function handleSelect(movieId: string) {
     navigate(PATHS.MOVIE_DETAIL(movieId));
-    onClose();
+    handleClose();
   }
 
   function handleSearchSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (query.trim()) {
       navigate(`${PATHS.SEARCH}?q=${encodeURIComponent(query.trim())}`);
-      onClose();
+      handleClose();
     }
   }
 
@@ -81,9 +87,10 @@ export function SpotlightSearchModal({ isOpen, onClose }: Props) {
       <button
         type="button"
         aria-label="Đóng tìm kiếm"
-        onClick={onClose}
+        onClick={handleClose}
         className="fixed inset-0 bg-black/85 backdrop-blur-2xl cursor-default"
       />
+
 
       <div className="relative z-10 w-full max-w-2xl bg-surface border border-white/15 rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
         {/* Search Input Bar */}

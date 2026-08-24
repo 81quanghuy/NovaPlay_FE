@@ -10,6 +10,7 @@ export { ContinueWatchingRow } from './components/ContinueWatchingRow';
 export { CinemaMoodMatcher } from './components/CinemaMoodMatcher';
 export { MovieReviews } from './components/MovieReviews';
 export { ShareMovieCardModal } from './components/ShareMovieCardModal';
+export { HlsPlayer } from './components/HlsPlayer';
 
 export {
   MOVIES,

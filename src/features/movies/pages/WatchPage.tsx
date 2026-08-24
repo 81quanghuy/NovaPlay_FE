@@ -19,6 +19,7 @@ import { getMovie, MOVIES } from '../data/movies';
 import { MovieRow } from '../components/MovieRow';
 import { MovieReviews } from '../components/MovieReviews';
 import { ShareMovieCardModal } from '../components/ShareMovieCardModal';
+import { HlsPlayer } from '../components/HlsPlayer';
 import { useWatchlistStore } from '../store/watchlistStore';
 import { useHistoryStore } from '../store/historyStore';
 import { PATHS } from '@/routes/paths';
@@ -156,16 +157,12 @@ export function WatchPage() {
         </div>
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-2 sm:px-6">
-          <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/15 bg-black shadow-[0_0_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
-            <iframe
-              key={playerKey}
-              src={`https://www.youtube.com/embed/${movie.youtubeKey}?autoplay=1&modestbranding=1&rel=0`}
-              title={movie.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
+          <HlsPlayer
+            key={playerKey}
+            youtubeKey={movie.youtubeKey}
+            title={movie.title}
+            poster={movie.backdrop || movie.poster}
+          />
         </div>
       </div>
 
