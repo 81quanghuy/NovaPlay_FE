@@ -64,6 +64,7 @@ export function AuthBootstrap({ children }: Props) {
     (async () => {
       try {
         const res = await postWithoutAuth<AuthResponse>(ENDPOINTS.auth.refresh, {
+          refreshToken,
           refresh_token: refreshToken,
         });
         setAuth(res.data);

@@ -5,7 +5,7 @@ import axios, {
   type AxiosRequestConfig,
   type InternalAxiosRequestConfig,
 } from 'axios';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore, normalizeAuthResponse } from '@/store/authStore';
 import { refreshTokenStorage } from '@/store/refreshTokenStorage';
 import { APP_EVENTS, ENV } from '@/config';
 import type { AuthResponse } from './types';
@@ -23,7 +23,11 @@ apiClient.interceptors.request.use((config) => {
   if (cfg._skipAuth) return cfg;
   const token = useAuthStore.getState().accessToken;
   if (token) {
-    cfg.headers.set('Authorization', `Bearer ${token}`);
+    if (typeof cfg.headers?.set === 'function') {
+      cfg.headers.set('Authorization', `Bearer ${token}`);
+    } else if (cfg.headers) {
+      cfg.headers['Authorization'] = `Bearer ${token}`;
+    }
   }
   return cfg;
 });
@@ -49,7 +53,7 @@ function isSameEndpoint(url: string, endpoint: string): boolean {
 }
 
 function isAuthEndpoint(url: string): boolean {
-  return [ENDPOINTS.auth.login, ENDPOINTS.auth.refresh, ENDPOINTS.auth.register].some((endpoint) =>
+  return Object.values(ENDPOINTS.auth).some((endpoint) =>
     isSameEndpoint(url, endpoint),
   );
 }
@@ -72,12 +76,13 @@ async function performRefresh(): Promise<string | null> {
   }
   try {
     const res = await axios.post<AuthResponse>(
-      `${ENV.API_URL}${ENDPOINTS.auth.refresh}`,
-      { refresh_token: refreshToken },
+      `${ENV.API_URL.replace(/\/$/, '')}${ENDPOINTS.auth.refresh}`,
+      { refreshToken, refresh_token: refreshToken },
       { headers: { 'Content-Type': 'application/json' } },
     );
+    const { accessToken } = normalizeAuthResponse(res.data);
     useAuthStore.getState().setAuth(res.data);
-    return res.data.access_token;
+    return accessToken || null;
   } catch {
     useAuthStore.getState().reset();
     notifyAuthExpired();

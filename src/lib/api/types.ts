@@ -9,26 +9,46 @@ export interface UserResponse {
   id: string;
   email: string;
   username: string;
+  fullName?: string;
   avatarUrl?: string | null;
   phoneNumber?: string | null;
   bio?: string | null;
   isActive?: boolean;
   isEmailVerified?: boolean;
   lastLoginAt?: string | null;
-  roles: RoleResponse[];
+  roles: (RoleResponse | RoleName | string)[];
   activePlan?: string;
+  plan?: string;
   planExpiredAt?: string | null;
 }
 
 export interface AuthResponse {
-  access_token: string;
-  refresh_token: string;
+  access_token?: string;
+  accessToken?: string;
+  refresh_token?: string;
+  refreshToken?: string;
   token_type?: string;
-  expires_in: number;
-  user_profile: UserResponse;
+  tokenType?: string;
+  expires_in?: number;
+  expiresIn?: number;
+  user_profile?: UserResponse;
+  user?: UserResponse;
+  result?: {
+    accessToken?: string;
+    access_token?: string;
+    refreshToken?: string;
+    refresh_token?: string;
+    tokenType?: string;
+    token_type?: string;
+    expiresIn?: number;
+    expires_in?: number;
+    user?: UserResponse;
+    user_profile?: UserResponse;
+  };
 }
 
 export interface LoginRequest {
+  usernameOrEmail?: string;
   email_or_username?: string;
   emailOrUsername?: string;
   password: string;
