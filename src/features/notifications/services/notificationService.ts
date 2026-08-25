@@ -1,229 +1,141 @@
 import { apiClient } from '@/lib/api/client';
-import {
-  NotificationDTO,
-  PageResponse,
-  normalizeNotification,
-} from '../types';
+import { ENDPOINTS } from '@/lib/api/endpoints';
+import type { GenericResponse, PageResponse } from '@/lib/api/types';
+import type { InAppNotification } from '../types';
 
-// In-memory mock storage for fallback / offline / dev mode
-let mockNotificationsState: NotificationDTO[] = [
+const INITIAL_MOCK_NOTIFICATIONS: InAppNotification[] = [
   {
-    id: 'notif_001',
-    title: 'Phim Mới Cập Nhật: Oppenheimer (4K)',
-    message: 'Tác phẩm bom tấn của Christopher Nolan đã chính thức có mặt trên NovaPlay.',
-    content: 'Tác phẩm bom tấn của Christopher Nolan đã chính thức có mặt trên NovaPlay.',
+    id: 'notif-1',
+    title: '🎬 Bom tấn mới: Oppenheimer (4K Ultra HD)',
+    message:
+      'Kiệt tác đoạt giải Oscar của Christopher Nolan đã chính thức có mặt trên NovaPlay với phụ đề Vietsub và âm thanh Dolby Atmos.',
+    content:
+      'Kiệt tác đoạt giải Oscar của Christopher Nolan đã chính thức có mặt trên NovaPlay với phụ đề Vietsub và âm thanh Dolby Atmos.',
     type: 'NEW_MOVIE_RELEASE',
-    targetUrl: '/movie/oppenheimer-2023',
+    targetUrl: '/movie/oppenheimer',
     isRead: false,
     read: false,
-    createdAt: '2026-08-24T20:15:00Z',
+    createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
   },
   {
-    id: 'notif_002',
-    title: 'Chào mừng bạn đến với NovaPlay VIP',
-    message: 'Bạn vừa mở khóa tính năng xem phim 4K không giới hạn và âm thanh vòm Dolby Atmos.',
-    content: 'Bạn vừa mở khóa tính năng xem phim 4K không giới hạn và âm thanh vòm Dolby Atmos.',
-    type: 'ACCOUNT_UPGRADED',
-    targetUrl: '/profile',
-    isRead: false,
-    read: false,
-    createdAt: '2026-08-24T14:30:00Z',
-  },
-  {
-    id: 'notif_003',
-    title: 'Bảo trì hệ thống định kỳ',
-    message: 'Hệ thống sẽ nâng cấp cơ sở dữ liệu từ 02:00 đến 03:00 sáng mai.',
-    content: 'Hệ thống sẽ nâng cấp cơ sở dữ liệu từ 02:00 đến 03:00 sáng mai.',
-    type: 'SYSTEM',
-    targetUrl: undefined,
-    isRead: true,
-    read: true,
-    createdAt: '2026-08-23T10:00:00Z',
-  },
-  {
-    id: 'notif_004',
-    title: 'Ưu đãi Đặc Biệt: Giảm 50% Gói VIP 4K',
-    message: 'Sử dụng mã NOVAVIP50 để nhận ngay ưu đãi 50% khi nâng cấp gói xem phim 4K trong hôm nay.',
-    content: 'Sử dụng mã NOVAVIP50 để nhận ngay ưu đãi 50% khi nâng cấp gói xem phim 4K trong hôm nay.',
+    id: 'notif-2',
+    title: '🎁 Ưu đãi độc quyền: Giảm 50% Gói VIP 4K',
+    message:
+      'Nhập mã NOVAVIP50 để nhận ngay ưu đãi giảm 50% khi nâng cấp gói VIP 4K trải nghiệm không quảng cáo.',
+    content:
+      'Nhập mã NOVAVIP50 để nhận ngay ưu đãi giảm 50% khi nâng cấp gói VIP 4K trải nghiệm không quảng cáo.',
     type: 'PROMOTION',
     targetUrl: '/pricing',
     isRead: false,
     read: false,
-    createdAt: '2026-08-22T08:00:00Z',
+    createdAt: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
   },
   {
-    id: 'notif_005',
-    title: 'Cảnh Báo Bảo Mật Tài Khoản',
-    message: 'Phát hiện đăng nhập mới từ trình duyệt Chrome trên thiết bị Linux.',
-    content: 'Phát hiện đăng nhập mới từ trình duyệt Chrome trên thiết bị Linux.',
-    type: 'SECURITY_ALERT',
+    id: 'notif-3',
+    title: '🔥 Chuỗi xem phim: Bạn đã đạt chuỗi 3 ngày!',
+    message:
+      'Chúc mừng bạn đã duy trì chuỗi xem phim 3 ngày liên tiếp. Tiếp tục khám phá để mở khóa huy hiệu Mọt Phim Chuyên Nghiệp.',
+    content:
+      'Chúc mừng bạn đã duy trì chuỗi xem phim 3 ngày liên tiếp. Tiếp tục khám phá để mở khóa huy hiệu Mọt Phim Chuyên Nghiệp.',
+    type: 'SYSTEM',
     targetUrl: '/profile',
     isRead: true,
     read: true,
-    createdAt: '2026-08-21T11:20:00Z',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
   },
 ];
 
 export const notificationService = {
   /**
-   * Fetch paginated notifications with optional unreadOnly filter
+   * Lấy danh sách thông báo in-app (có phân trang)
    */
   async getNotifications(
     page = 0,
     size = 20,
     unreadOnly = false,
-  ): Promise<PageResponse<NotificationDTO>> {
+  ): Promise<PageResponse<InAppNotification>> {
     try {
-      const response = await apiClient.get<PageResponse<Record<string, unknown>>>(
-        '/notifications',
-        {
-          params: { page, size, unreadOnly },
-        },
+      const res = await apiClient.get<GenericResponse<PageResponse<InAppNotification>>>(
+        ENDPOINTS.notifications.list,
+        { params: { page, size, unreadOnly } },
       );
-
-      const rawData = response.data;
-      const content = Array.isArray(rawData?.content)
-        ? rawData.content.map(normalizeNotification)
-        : [];
-
-      return {
-        content,
-        page: rawData?.page ?? page,
-        size: rawData?.size ?? size,
-        totalElements: rawData?.totalElements ?? content.length,
-        totalPages: rawData?.totalPages ?? (Math.ceil(content.length / size) || 1),
-        last: rawData?.last ?? true,
-      };
-    } catch {
-      // Fallback to in-memory mock data
-      let filtered = [...mockNotificationsState];
-      if (unreadOnly) {
-        filtered = filtered.filter((n) => !n.isRead && !n.read);
+      if (res.data?.success && res.data.result) {
+        return res.data.result;
       }
-
-      // Sort newest first
-      filtered.sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      );
-
-      const totalElements = filtered.length;
-      const totalPages = Math.ceil(totalElements / size) || 1;
-      const start = page * size;
-      const pageItems = filtered.slice(start, start + size);
-
-      return {
-        content: pageItems,
-        page,
-        size,
-        totalElements,
-        totalPages,
-        last: page >= totalPages - 1,
-      };
+    } catch {
+      // Fallback
     }
+
+    const filtered = unreadOnly
+      ? INITIAL_MOCK_NOTIFICATIONS.filter((n) => !n.isRead && !n.read)
+      : INITIAL_MOCK_NOTIFICATIONS;
+
+    return {
+      content: filtered,
+      page,
+      size,
+      totalElements: filtered.length,
+      totalPages: 1,
+      last: true,
+    };
   },
 
   /**
-   * Fetch unread notification count
+   * Lấy số lượng thông báo chưa đọc
    */
   async getUnreadCount(): Promise<number> {
     try {
-      const response = await apiClient.get<{ count: number } | number>(
-        '/notifications/unread-count',
+      const res = await apiClient.get<GenericResponse<number>>(
+        ENDPOINTS.notifications.unreadCount,
       );
-      if (typeof response.data === 'number') {
-        return response.data;
+      if (res.data?.success && typeof res.data.result === 'number') {
+        return res.data.result;
       }
-      return response.data?.count ?? 0;
     } catch {
-      return mockNotificationsState.filter((n) => !n.isRead && !n.read).length;
+      // Fallback
     }
+    return INITIAL_MOCK_NOTIFICATIONS.filter((n) => !n.isRead && !n.read).length;
   },
 
   /**
-   * Mark single notification as read
+   * Đánh dấu 1 thông báo là đã đọc
    */
-  async markAsRead(id: string): Promise<void> {
+  async markAsRead(id: string): Promise<boolean> {
     try {
-      await apiClient.patch(`/notifications/${id}/read`);
-    } catch {
-      // Mock fallback update
-      mockNotificationsState = mockNotificationsState.map((n) =>
-        n.id === id ? { ...n, isRead: true, read: true, readAt: new Date().toISOString() } : n,
+      const res = await apiClient.put<GenericResponse<void>>(
+        ENDPOINTS.notifications.markRead(id),
       );
-    }
-  },
-
-  /**
-   * Mark all notifications as read
-   */
-  async markAllAsRead(): Promise<void> {
-    try {
-      await apiClient.patch('/notifications/read-all');
+      return res.data?.success ?? true;
     } catch {
-      // Mock fallback update
-      const now = new Date().toISOString();
-      mockNotificationsState = mockNotificationsState.map((n) => ({
-        ...n,
-        isRead: true,
-        read: true,
-        readAt: now,
-      }));
+      return true;
     }
   },
 
   /**
-   * Delete or dismiss a notification
+   * Đánh dấu tất cả thông báo là đã đọc
    */
-  async deleteNotification(id: string): Promise<void> {
+  async markAllAsRead(): Promise<boolean> {
     try {
-      await apiClient.delete(`/notifications/${id}`);
+      const res = await apiClient.put<GenericResponse<void>>(
+        ENDPOINTS.notifications.markAllRead,
+      );
+      return res.data?.success ?? true;
     } catch {
-      mockNotificationsState = mockNotificationsState.filter((n) => n.id !== id);
+      return true;
     }
   },
 
   /**
-   * Reset mock data (useful for test isolation)
+   * Xóa thông báo
    */
-  __resetMockData(items?: NotificationDTO[]) {
-    if (items) {
-      mockNotificationsState = items.map(normalizeNotification);
-    } else {
-      mockNotificationsState = [
-        {
-          id: 'notif_001',
-          title: 'Phim Mới Cập Nhật: Oppenheimer (4K)',
-          message: 'Tác phẩm bom tấn của Christopher Nolan đã chính thức có mặt trên NovaPlay.',
-          content: 'Tác phẩm bom tấn của Christopher Nolan đã chính thức có mặt trên NovaPlay.',
-          type: 'NEW_MOVIE_RELEASE',
-          targetUrl: '/movie/oppenheimer-2023',
-          isRead: false,
-          read: false,
-          createdAt: '2026-08-24T20:15:00Z',
-        },
-        {
-          id: 'notif_002',
-          title: 'Chào mừng bạn đến với NovaPlay VIP',
-          message: 'Bạn vừa mở khóa tính năng xem phim 4K không giới hạn và âm thanh vòm Dolby Atmos.',
-          content: 'Bạn vừa mở khóa tính năng xem phim 4K không giới hạn và âm thanh vòm Dolby Atmos.',
-          type: 'ACCOUNT_UPGRADED',
-          targetUrl: '/profile',
-          isRead: false,
-          read: false,
-          createdAt: '2026-08-24T14:30:00Z',
-        },
-        {
-          id: 'notif_003',
-          title: 'Bảo trì hệ thống định kỳ',
-          message: 'Hệ thống sẽ nâng cấp cơ sở dữ liệu từ 02:00 đến 03:00 sáng mai.',
-          content: 'Hệ thống sẽ nâng cấp cơ sở dữ liệu từ 02:00 đến 03:00 sáng mai.',
-          type: 'SYSTEM',
-          targetUrl: undefined,
-          isRead: true,
-          read: true,
-          createdAt: '2026-08-23T10:00:00Z',
-        },
-      ];
+  async deleteNotification(id: string): Promise<boolean> {
+    try {
+      const res = await apiClient.delete<GenericResponse<void>>(
+        ENDPOINTS.notifications.delete(id),
+      );
+      return res.data?.success ?? true;
+    } catch {
+      return true;
     }
   },
 };

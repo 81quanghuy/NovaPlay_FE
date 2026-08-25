@@ -6,6 +6,8 @@ export type NotificationType =
   | 'SECURITY_ALERT'
   | 'PROMO';
 
+export type InAppNotification = NotificationDTO;
+
 export interface NotificationDTO {
   id: string;
   userId?: string;

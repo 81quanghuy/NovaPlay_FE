@@ -14,16 +14,14 @@ import {
   ShieldCheck,
   User,
 } from 'lucide-react';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore, hasRole } from '@/store/authStore';
 import { useLogout } from '@/features/auth/hooks/useLogout';
-import { hasRole } from '@/features/auth/utils/authUtils';
 import { Logo } from '@/components/ui';
 import { NAV_LINKS, NAV_GENRES, NAV_COUNTRIES } from '@/config';
 import { PATHS } from '@/routes/paths';
 import { SpotlightSearchModal } from './SpotlightSearchModal';
-import { CinemaMoodMatcher } from '@/features/movies/components/CinemaMoodMatcher';
-import { NotificationDrawer } from '@/features/notifications/components/NotificationDrawer';
-import { useNotificationStore } from '@/features/notifications/store/notificationStore';
+import { CinemaMoodMatcher } from '@/features/movies';
+import { NotificationDrawer, useNotificationStore } from '@/features/notifications';
 
 export function Navbar() {
   const user = useAuthStore((s) => s.user);
@@ -35,10 +33,9 @@ export function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [spotlightOpen, setSpotlightOpen] = useState(false);
   const [moodMatcherOpen, setMoodMatcherOpen] = useState(false);
-  const [notificationDrawerOpen, setNotificationDrawerOpen] = useState(false);
 
-  const notifications = useNotificationStore((s) => s.notifications);
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const unreadCount = useNotificationStore((s) => s.unreadCount);
+  const openNotificationDrawer = useNotificationStore((s) => s.openDrawer);
 
   const userMenuRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -85,7 +82,7 @@ export function Navbar() {
 
   function handleNotificationClick() {
     if (isAuthenticated) {
-      setNotificationDrawerOpen(true);
+      openNotificationDrawer();
     } else {
       navigate(PATHS.LOGIN);
     }
@@ -378,10 +375,7 @@ export function Navbar() {
       />
 
       {/* Notification Slide-over Drawer */}
-      <NotificationDrawer
-        isOpen={notificationDrawerOpen}
-        onClose={() => setNotificationDrawerOpen(false)}
-      />
+      <NotificationDrawer />
     </>
   );
 }

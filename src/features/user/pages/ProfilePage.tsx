@@ -16,6 +16,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useWatchlistStore } from '@/features/movies/store/watchlistStore';
 import { useHistoryStore } from '@/features/movies/store/historyStore';
 import { PATHS } from '@/routes/paths';
+import { userService } from '../services/userService';
 
 export function ProfilePage() {
   const user = useAuthStore((s) => s.user);
@@ -36,8 +37,9 @@ export function ProfilePage() {
     }
   }
 
-  function handleSaveProfile(e: React.FormEvent) {
+  async function handleSaveProfile(e: React.FormEvent) {
     e.preventDefault();
+    await userService.updateProfile({ fullName, phoneNumber, bio });
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
   }
@@ -194,10 +196,11 @@ export function ProfilePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
+                <label htmlFor="profile-fullname" className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
                   Họ và Tên
                 </label>
                 <input
+                  id="profile-fullname"
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
@@ -206,10 +209,11 @@ export function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
+                <label htmlFor="profile-phone" className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
                   Số Điện Thoại
                 </label>
                 <input
+                  id="profile-phone"
                   type="text"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -218,10 +222,11 @@ export function ProfilePage() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
+                <label htmlFor="profile-email" className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
                   Email (Không thể thay đổi)
                 </label>
                 <input
+                  id="profile-email"
                   type="text"
                   disabled
                   value={user?.email || 'user@example.com'}
@@ -230,10 +235,11 @@ export function ProfilePage() {
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
+                <label htmlFor="profile-bio" className="block text-xs font-extrabold text-fg-3 mb-2 uppercase tracking-wider">
                   Tiểu Sử (Bio)
                 </label>
                 <textarea
+                  id="profile-bio"
                   rows={3}
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}

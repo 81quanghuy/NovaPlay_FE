@@ -8,6 +8,7 @@ import {
   X,
 } from 'lucide-react';
 import { MOVIES } from '@/features/movies/data/movies';
+import { movieService } from '@/features/movies/services/movieService';
 import type { Movie } from '@/features/movies/types';
 
 export function AdminMoviesPage() {
@@ -29,8 +30,9 @@ export function AdminMoviesPage() {
   const seriesCount = moviesList.filter((m) => m.type === 'series').length;
   const publishedCount = moviesList.length; // Tất cả mock data hiện là published
 
-  function handleDeleteMovie(id: string) {
+  async function handleDeleteMovie(id: string) {
     if (window.confirm('Bạn có chắc chắn muốn xóa phim này?')) {
+      await movieService.deleteMovie(id);
       setMoviesList((prev) => prev.filter((m) => m.id !== id));
     }
   }
@@ -61,17 +63,20 @@ export function AdminMoviesPage() {
     setEditModalOpen(true);
   }
 
-  function handleSaveMovie(e: React.FormEvent) {
+  async function handleSaveMovie(e: React.FormEvent) {
     e.preventDefault();
     if (!editingMovie || !editingMovie.title) return;
 
-    setMoviesList((prev) => {
-      const exists = prev.some((m) => m.id === editingMovie.id);
-      if (exists) {
-        return prev.map((m) => (m.id === editingMovie.id ? (editingMovie as Movie) : m));
-      }
-      return [editingMovie as Movie, ...prev];
-    });
+    const exists = moviesList.some((m) => m.id === editingMovie.id);
+    if (exists) {
+      await movieService.updateMovie(editingMovie.id!, editingMovie);
+      setMoviesList((prev) =>
+        prev.map((m) => (m.id === editingMovie.id ? (editingMovie as Movie) : m)),
+      );
+    } else {
+      const created = await movieService.createMovie(editingMovie);
+      setMoviesList((prev) => [created as Movie, ...prev]);
+    }
 
     setEditModalOpen(false);
     setEditingMovie(null);
@@ -278,10 +283,11 @@ export function AdminMoviesPage() {
             <form onSubmit={handleSaveMovie} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="movie-title" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                     Tên Phim (Tiếng Việt)
                   </label>
                   <input
+                    id="movie-title"
                     type="text"
                     required
                     value={editingMovie.title || ''}
@@ -293,10 +299,11 @@ export function AdminMoviesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="movie-original-title" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                     Tên Gốc Quốc Tế
                   </label>
                   <input
+                    id="movie-original-title"
                     type="text"
                     value={editingMovie.originalTitle || ''}
                     onChange={(e) =>
@@ -310,10 +317,11 @@ export function AdminMoviesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="movie-release-year" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                     Năm Phát Hành
                   </label>
                   <input
+                    id="movie-release-year"
                     type="number"
                     value={editingMovie.releaseYear || 2024}
                     onChange={(e) =>
@@ -327,10 +335,11 @@ export function AdminMoviesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="movie-duration" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                     Thời Lượng (Phút)
                   </label>
                   <input
+                    id="movie-duration"
                     type="number"
                     value={editingMovie.duration || 120}
                     onChange={(e) =>
@@ -344,10 +353,11 @@ export function AdminMoviesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="movie-type" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                     Định Dạng
                   </label>
                   <select
+                    id="movie-type"
                     value={editingMovie.type || 'movie'}
                     onChange={(e) =>
                       setEditingMovie({
@@ -363,10 +373,11 @@ export function AdminMoviesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                  <label htmlFor="movie-country" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                     Quốc Gia
                   </label>
                   <input
+                    id="movie-country"
                     type="text"
                     value={editingMovie.country || 'Âu Mỹ'}
                     onChange={(e) =>
@@ -378,10 +389,11 @@ export function AdminMoviesPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                <label htmlFor="movie-description" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                   Mô Tả / Cốt Truyện
                 </label>
                 <textarea
+                  id="movie-description"
                   rows={3}
                   value={editingMovie.description || ''}
                   onChange={(e) =>

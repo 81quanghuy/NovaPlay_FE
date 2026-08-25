@@ -177,10 +177,11 @@ export function AdminArtistsPage() {
 
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                <label htmlFor="artist-name" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                   Họ và Tên
                 </label>
                 <input
+                  id="artist-name"
                   type="text"
                   required
                   value={fullName}
@@ -191,10 +192,11 @@ export function AdminArtistsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                <label htmlFor="artist-role" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                   Vai Trò Chính
                 </label>
                 <select
+                  id="artist-role"
                   value={role}
                   onChange={(e) => setRole(e.target.value as 'Đạo diễn' | 'Diễn viên')}
                   className="w-full bg-surface-2 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-fg outline-none focus:border-primary"
@@ -205,10 +207,11 @@ export function AdminArtistsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                <label htmlFor="artist-nationality" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                   Quốc Tịch
                 </label>
                 <input
+                  id="artist-nationality"
                   type="text"
                   value={nationality}
                   onChange={(e) => setNationality(e.target.value)}

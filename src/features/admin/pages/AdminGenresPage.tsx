@@ -128,10 +128,11 @@ export function AdminGenresPage() {
 
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <label className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
+                <label htmlFor="genre-name" className="block text-xs font-extrabold text-fg-3 mb-1.5 uppercase tracking-wider">
                   Tên Thể Loại
                 </label>
                 <input
+                  id="genre-name"
                   type="text"
                   required
                   value={newGenreName}

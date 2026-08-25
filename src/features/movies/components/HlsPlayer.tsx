@@ -14,35 +14,20 @@ interface Props {
 }
 
 const QUALITIES = ['Auto (4K)', '2160p (4K UHD)', '1080p (Full HD)', '720p (HD)', '480p (SD)'];
-const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
-export function HlsPlayer({ youtubeKey, title, poster, onProgress }: Props) {
+export function HlsPlayer({ youtubeKey, title, poster }: Props) {
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
   const [selectedQuality, setSelectedQuality] = useState('Auto (4K)');
-  const [selectedSpeed, setSelectedSpeed] = useState(1);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [useEmbed, setUseEmbed] = useState(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
-
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen?.();
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen?.();
-      setIsFullscreen(false);
-    }
-  }
 
   return (
     <div
       ref={containerRef}
       className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black border border-white/15 shadow-[0_0_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10 group select-none"
     >
-      {useEmbed && youtubeKey ? (
+      {youtubeKey ? (
         <iframe
           src={`https://www.youtube.com/embed/${youtubeKey}?autoplay=1&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`}
           title={title}
