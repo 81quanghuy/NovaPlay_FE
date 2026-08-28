@@ -74,7 +74,12 @@ export const authService = {
   },
 
   async me(): Promise<UserResponse> {
-    const res = await apiClient.get<UserResponse>(ENDPOINTS.auth.me);
-    return res.data;
+    const res = await apiClient.get<any>(ENDPOINTS.auth.me);
+    return res.data?.result || res.data;
+  },
+
+  async updateProfile(payload: { username?: string }): Promise<UserResponse> {
+    const res = await apiClient.put<any>(ENDPOINTS.auth.me, payload);
+    return res.data?.result || res.data;
   },
 };

@@ -20,10 +20,11 @@ export const ENDPOINTS = {
   // 2. User Service (Port 8700 qua Gateway)
   users: {
     me: '/users/me',
-    profile: '/users/me/profile',
-    avatar: '/users/me/avatar',
+    profile: '/users/me',
+    avatarUploadRequest: '/users/avatar/request-upload',
     favorites: '/users/favorites',
     favoriteById: (movieId: string) => `/users/favorites/${movieId}`,
+    favoriteExists: (movieId: string) => `/users/favorites/${movieId}/exists`,
     watchProgress: '/users/watch-progress',
     watchProgressByMovie: (movieId: string) => `/users/watch-progress/${movieId}`,
   },

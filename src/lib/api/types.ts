@@ -10,6 +10,8 @@ export interface UserResponse {
   email: string;
   username: string;
   fullName?: string;
+  displayName?: string;
+  preferredUsername?: string;
   avatarUrl?: string | null;
   phoneNumber?: string | null;
   bio?: string | null;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Bookmark,
@@ -20,14 +20,30 @@ import { userService } from '../services/userService';
 
 export function ProfilePage() {
   const user = useAuthStore((s) => s.user);
+  const setUser = useAuthStore((s) => s.setUser);
   const watchlistCount = useWatchlistStore((s) => s.ids.length);
   const historyCount = useHistoryStore((s) => s.history.length);
 
-  const [fullName, setFullName] = useState(user?.username || 'Nguyễn Hoàng Minh');
-  const [phoneNumber, setPhoneNumber] = useState('0987654321');
-  const [bio, setBio] = useState('Đam mê điện ảnh, khoa học viễn tưởng và các tác phẩm của Christopher Nolan.');
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [fullName, setFullName] = useState(user?.fullName || user?.username || '');
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || '');
+  const [bio, setBio] = useState(user?.bio || '');
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatarUrl || null);
   const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const profile = await userService.getProfile();
+      if (profile) {
+        if (profile.fullName) setFullName(profile.fullName);
+        else if (profile.displayName) setFullName(profile.displayName);
+        else if (profile.username) setFullName(profile.username);
+
+        if (profile.phoneNumber) setPhoneNumber(profile.phoneNumber);
+        if (profile.bio) setBio(profile.bio);
+        if (profile.avatarUrl) setAvatarPreview(profile.avatarUrl);
+      }
+    })();
+  }, []);
 
   function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -39,7 +55,17 @@ export function ProfilePage() {
 
   async function handleSaveProfile(e: React.FormEvent) {
     e.preventDefault();
-    await userService.updateProfile({ fullName, phoneNumber, bio });
+    const updated = await userService.updateProfile({ fullName, phoneNumber, bio });
+    if (updated) {
+      setUser({
+        ...user,
+        ...updated,
+        fullName: updated.fullName || fullName,
+        username: updated.username || user?.username || '',
+        email: updated.email || user?.email || '',
+        roles: updated.roles || user?.roles || [],
+      });
+    }
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
   }

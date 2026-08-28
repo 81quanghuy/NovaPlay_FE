@@ -10,17 +10,30 @@ export interface WatchProgressDTO {
   updatedAt: string;
 }
 
+export interface AvatarUploadRequest {
+  fileName: string;
+  contentType: string;
+  fileSize: number;
+}
+
+export interface AvatarUploadResponse {
+  uploadUrl: string;
+  avatarUrl: string;
+}
+
 export const userService = {
   /**
-   * Lấy thông tin hồ sơ người dùng hiện tại
+   * Lấy thông tin hồ sơ người dùng hiện tại (GET /api/v1/users/me)
    */
   async getProfile(): Promise<UserResponse | null> {
     try {
-      const res = await apiClient.get<GenericResponse<UserResponse>>(
+      const res = await apiClient.get<GenericResponse<UserResponse> | UserResponse>(
         ENDPOINTS.users.me,
       );
-      if (res.data?.success && res.data.result) {
-        return res.data.result;
+      const data = res.data as GenericResponse<UserResponse>;
+      const user = data?.result || (res.data as UserResponse);
+      if (user) {
+        return user;
       }
     } catch {
       // Fallback to local store
@@ -29,16 +42,43 @@ export const userService = {
   },
 
   /**
-   * Cập nhật thông tin cá nhân
+   * Cập nhật thông tin cá nhân (PUT /api/v1/users/me)
    */
   async updateProfile(data: {
     fullName?: string;
+    displayName?: string;
+    preferredUsername?: string;
     phoneNumber?: string;
     bio?: string;
+    avatarUrl?: string;
   }): Promise<UserResponse | null> {
     try {
-      const res = await apiClient.put<GenericResponse<UserResponse>>(
+      const res = await apiClient.put<GenericResponse<UserResponse> | UserResponse>(
         ENDPOINTS.users.profile,
+        {
+          ...data,
+          displayName: data.displayName || data.fullName,
+          fullName: data.fullName || data.displayName,
+        },
+      );
+      const resData = res.data as GenericResponse<UserResponse>;
+      const updatedUser = resData?.result || (res.data as UserResponse);
+      if (updatedUser) {
+        return updatedUser;
+      }
+    } catch {
+      // Fallback
+    }
+    return null;
+  },
+
+  /**
+   * Yêu cầu presigned upload URL cho Avatar (POST /api/v1/users/avatar/request-upload)
+   */
+  async requestAvatarUpload(data: AvatarUploadRequest): Promise<AvatarUploadResponse | null> {
+    try {
+      const res = await apiClient.post<GenericResponse<AvatarUploadResponse>>(
+        ENDPOINTS.users.avatarUploadRequest,
         data,
       );
       if (res.data?.success && res.data.result) {
@@ -51,7 +91,7 @@ export const userService = {
   },
 
   /**
-   * Lấy danh sách phim yêu thích
+   * Lấy danh sách phim yêu thích (GET /api/v1/users/favorites)
    */
   async getFavorites(): Promise<string[]> {
     try {
@@ -68,7 +108,7 @@ export const userService = {
   },
 
   /**
-   * Thêm phim vào yêu thích
+   * Thêm phim vào yêu thích (POST /api/v1/users/favorites)
    */
   async addFavorite(movieId: string): Promise<boolean> {
     try {
@@ -83,7 +123,7 @@ export const userService = {
   },
 
   /**
-   * Xóa phim khỏi danh sách yêu thích
+   * Xóa phim khỏi danh sách yêu thích (DELETE /api/v1/users/favorites/{movieId})
    */
   async removeFavorite(movieId: string): Promise<boolean> {
     try {
@@ -97,7 +137,7 @@ export const userService = {
   },
 
   /**
-   * Lấy lịch sử tiến độ xem phim
+   * Lấy lịch sử tiến độ xem phim (GET /api/v1/users/watch-progress)
    */
   async getWatchProgress(): Promise<WatchProgressDTO[]> {
     try {
@@ -114,7 +154,7 @@ export const userService = {
   },
 
   /**
-   * Lưu tiến độ xem phim
+   * Lưu tiến độ xem phim (PUT /api/v1/users/watch-progress)
    */
   async saveWatchProgress(data: {
     movieId: string;
@@ -123,7 +163,7 @@ export const userService = {
     durationSeconds: number;
   }): Promise<boolean> {
     try {
-      const res = await apiClient.post<GenericResponse<void>>(
+      const res = await apiClient.put<GenericResponse<void>>(
         ENDPOINTS.users.watchProgress,
         data,
       );

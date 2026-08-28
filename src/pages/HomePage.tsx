@@ -2,8 +2,6 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Play } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import {
@@ -76,8 +74,6 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen bg-bg text-fg-1">
-      <Navbar />
-
       <main>
         {/* Hero Slider */}
         {heroMovies.length > 0 ? (
@@ -211,8 +207,6 @@ export function HomePage() {
           )}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
