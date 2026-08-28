@@ -3,7 +3,7 @@
  * Import từ đây thay vì viết chuỗi đường dẫn trực tiếp.
  */
 export const PATHS = {
-  // Public
+  // Public / Auth
   HOME: '/',
   LOGIN: '/login',
   REGISTER: '/register',
@@ -15,16 +15,24 @@ export const PATHS = {
   MOVIES: '/movies',
   MOVIE_DETAIL: (id: string) => `/movie/${id}`,
   SEARCH: '/search',
+  PRICING: '/pricing',
+
+  // User features — protected (cần đăng nhập)
+  NOTIFICATIONS: '/notifications',
+  MY_LIST: '/my-list',
+  WATCHLIST: '/my-list', // Alias cho tương thích ngược
+  PROFILE: '/profile',
+  CHANGE_PASSWORD: '/change-password',
 
   // Movies — protected (cần đăng nhập)
   WATCH: (id: string) => `/watch/${id}`,
-  WATCHLIST: '/watchlist',
 
-  // Auth protected
-  CHANGE_PASSWORD: '/change-password',
-
-  // Admin
+  // Admin area — protected (yêu cầu vai trò ADMIN)
   ADMIN: '/admin',
+  ADMIN_MOVIES: '/admin/movies',
+  ADMIN_GENRES: '/admin/genres',
+  ADMIN_ARTISTS: '/admin/artists',
+  ADMIN_EPISODES: (id: string) => `/admin/movies/${id}/episodes`,
 
   // Special
   FORBIDDEN: '/403',

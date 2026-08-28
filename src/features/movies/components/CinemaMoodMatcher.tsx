@@ -7,7 +7,6 @@ import {
   Heart,
   Laugh,
   Play,
-  RotateCcw,
   Skull,
   Sparkles,
   Star,
@@ -15,8 +14,8 @@ import {
   Zap,
 } from 'lucide-react';
 import { MOVIES } from '../data/movies';
-import type { Movie } from '../types';
 import { PATHS } from '@/routes/paths';
+
 
 interface Props {
   isOpen: boolean;

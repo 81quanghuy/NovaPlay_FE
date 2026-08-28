@@ -2,21 +2,26 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   Bell,
+  Bookmark,
   ChevronDown,
+  Crown,
   Dices,
   Flame,
   Globe,
   KeyRound,
   LogOut,
   Search,
+  ShieldCheck,
+  User,
 } from 'lucide-react';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore, hasRole } from '@/store/authStore';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { Logo } from '@/components/ui';
 import { NAV_LINKS, NAV_GENRES, NAV_COUNTRIES } from '@/config';
 import { PATHS } from '@/routes/paths';
 import { SpotlightSearchModal } from './SpotlightSearchModal';
-import { CinemaMoodMatcher } from '@/features/movies/components/CinemaMoodMatcher';
+import { CinemaMoodMatcher } from '@/features/movies';
+import { NotificationDrawer, useNotificationStore } from '@/features/notifications';
 
 export function Navbar() {
   const user = useAuthStore((s) => s.user);
@@ -28,6 +33,9 @@ export function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [spotlightOpen, setSpotlightOpen] = useState(false);
   const [moodMatcherOpen, setMoodMatcherOpen] = useState(false);
+
+  const unreadCount = useNotificationStore((s) => s.unreadCount);
+  const openNotificationDrawer = useNotificationStore((s) => s.openDrawer);
 
   const userMenuRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -72,6 +80,14 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', onDoc);
   }, []);
 
+  function handleNotificationClick() {
+    if (isAuthenticated) {
+      openNotificationDrawer();
+    } else {
+      navigate(PATHS.LOGIN);
+    }
+  }
+
   const initial = (user?.username?.[0] || 'N').toUpperCase();
 
   return (
@@ -104,6 +120,19 @@ export function Navbar() {
                 {link.label}
               </NavLink>
             ))}
+
+            {/* Link Gói VIP */}
+            <NavLink
+              to={PATHS.PRICING}
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors duration-fast flex items-center gap-1 ${
+                  isActive ? 'text-gold bg-gold/10' : 'text-fg-2 hover:text-gold hover:bg-white/5'
+                }`
+              }
+            >
+              <Crown className="w-3.5 h-3.5 text-gold" />
+              <span>Gói VIP</span>
+            </NavLink>
 
             {/* Dropdown thể loại */}
             <div className="relative group">
@@ -175,14 +204,18 @@ export function Navbar() {
             </kbd>
           </button>
 
-          {/* Notification bell — disabled */}
+          {/* Notification bell — clickable */}
           <button
             type="button"
-            disabled
-            title="Thông báo — Sắp ra mắt"
-            className="hidden lg:grid w-9 h-9 place-items-center rounded-pill text-fg-2 disabled:opacity-40 disabled:cursor-not-allowed"
+            onClick={handleNotificationClick}
+            title={isAuthenticated ? 'Trung tâm thông báo' : 'Đăng nhập để xem thông báo'}
+            aria-label="Trung tâm thông báo"
+            className="grid w-9 h-9 place-items-center rounded-pill text-fg-2 hover:text-fg hover:bg-white/5 transition-colors relative"
           >
             <Bell className="w-5 h-5" />
+            {isAuthenticated && unreadCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-pill bg-primary shadow-glow animate-pulse" />
+            )}
           </button>
 
           {/* User menu / login */}
@@ -207,7 +240,7 @@ export function Navbar() {
               {userMenuOpen && (
                 <div
                   role="menu"
-                  className="absolute right-0 mt-2 w-60 bg-surface-2 border border-border rounded-2xl shadow-2xl overflow-hidden z-50 p-1.5"
+                  className="absolute right-0 mt-2 w-64 bg-surface-2 border border-border rounded-2xl shadow-2xl overflow-hidden z-50 p-1.5"
                 >
                   <div className="px-3.5 py-3 border-b border-border mb-1">
                     <p className="text-sm font-bold text-fg truncate">{user?.username}</p>
@@ -220,6 +253,77 @@ export function Navbar() {
                     </div>
                   </div>
 
+                  {/* Profile */}
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      setUserMenuOpen(false);
+                      navigate(PATHS.PROFILE);
+                    }}
+                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-fg-1 hover:bg-white/5 hover:text-primary inline-flex items-center gap-2.5 transition-colors"
+                  >
+                    <User className="w-4 h-4 text-fg-3" />
+                    <span>Hồ sơ cá nhân</span>
+                  </button>
+
+                  {/* My List */}
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      setUserMenuOpen(false);
+                      navigate(PATHS.MY_LIST);
+                    }}
+                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-fg-1 hover:bg-white/5 hover:text-primary inline-flex items-center gap-2.5 transition-colors"
+                  >
+                    <Bookmark className="w-4 h-4 text-fg-3" />
+                    <span>Kho phim của tôi</span>
+                  </button>
+
+                  {/* VIP Pricing */}
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      setUserMenuOpen(false);
+                      navigate(PATHS.PRICING);
+                    }}
+                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-gold hover:bg-gold/10 inline-flex items-center justify-between transition-colors"
+                  >
+                    <div className="inline-flex items-center gap-2.5">
+                      <Crown className="w-4 h-4 text-gold" />
+                      <span className="font-semibold">Gói cước VIP</span>
+                    </div>
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-gold/20 text-gold">
+                      Nâng cấp
+                    </span>
+                  </button>
+
+                  {/* Admin CMS Portal (ADMIN only) */}
+                  {hasRole(user, 'ADMIN') && (
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setUserMenuOpen(false);
+                        navigate(PATHS.ADMIN_MOVIES);
+                      }}
+                      className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-primary hover:bg-primary/10 inline-flex items-center justify-between transition-colors"
+                    >
+                      <div className="inline-flex items-center gap-2.5">
+                        <ShieldCheck className="w-4 h-4 text-primary" />
+                        <span className="font-semibold">Quản trị CMS</span>
+                      </div>
+                      <span className="text-[10px] uppercase font-mono font-bold px-1.5 py-0.5 rounded bg-primary/20 text-primary">
+                        Admin
+                      </span>
+                    </button>
+                  )}
+
+                  <div className="border-t border-border my-1" />
+
+                  {/* Change password */}
                   <button
                     type="button"
                     role="menuitem"
@@ -227,19 +331,22 @@ export function Navbar() {
                       setUserMenuOpen(false);
                       navigate(PATHS.CHANGE_PASSWORD);
                     }}
-                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-fg-1 hover:bg-white/5 hover:text-primary inline-flex items-center gap-2 transition-colors"
+                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-fg-1 hover:bg-white/5 hover:text-primary inline-flex items-center gap-2.5 transition-colors"
                   >
-                    <KeyRound className="w-4 h-4 text-fg-3" /> Đổi mật khẩu
+                    <KeyRound className="w-4 h-4 text-fg-3" />
+                    <span>Đổi mật khẩu</span>
                   </button>
 
+                  {/* Logout */}
                   <button
                     type="button"
                     role="menuitem"
                     onClick={logout}
                     disabled={logoutLoading}
-                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-danger hover:bg-danger/10 inline-flex items-center gap-2 disabled:opacity-60 transition-colors"
+                    className="w-full text-left px-3.5 py-2 text-sm rounded-xl text-danger hover:bg-danger/10 inline-flex items-center gap-2.5 disabled:opacity-60 transition-colors"
                   >
-                    <LogOut className="w-4 h-4" /> Đăng xuất
+                    <LogOut className="w-4 h-4" />
+                    <span>Đăng xuất</span>
                   </button>
                 </div>
               )}
@@ -266,6 +373,9 @@ export function Navbar() {
         isOpen={moodMatcherOpen}
         onClose={() => setMoodMatcherOpen(false)}
       />
+
+      {/* Notification Slide-over Drawer */}
+      <NotificationDrawer />
     </>
   );
 }

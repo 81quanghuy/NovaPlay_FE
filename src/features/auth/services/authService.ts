@@ -13,7 +13,18 @@ import type {
 
 export const authService = {
   async login(payload: LoginRequest): Promise<AuthResponse> {
-    const res = await postWithoutAuth<AuthResponse>(ENDPOINTS.auth.login, payload);
+    const usernameOrEmail =
+      payload.usernameOrEmail ||
+      payload.emailOrUsername ||
+      payload.email_or_username ||
+      '';
+
+    const res = await postWithoutAuth<AuthResponse>(ENDPOINTS.auth.login, {
+      usernameOrEmail,
+      email_or_username: usernameOrEmail,
+      emailOrUsername: usernameOrEmail,
+      password: payload.password,
+    });
     return res.data;
   },
 
@@ -35,19 +46,40 @@ export const authService = {
   },
 
   async resetPassword(payload: ResetPasswordRequest): Promise<void> {
-    await postWithoutAuth<void>(ENDPOINTS.auth.resetPassword, payload);
+    const newPassword = payload.newPassword || payload.new_password || '';
+    await postWithoutAuth<void>(ENDPOINTS.auth.resetPassword, {
+      email: payload.email,
+      otp: payload.otp,
+      newPassword,
+      new_password: newPassword,
+    });
   },
 
   async changePassword(payload: ChangePasswordRequest): Promise<void> {
-    await apiClient.post(ENDPOINTS.auth.changePassword, payload);
+    const currentPassword = payload.currentPassword || payload.current_password || '';
+    const newPassword = payload.newPassword || payload.new_password || '';
+    await apiClient.post(ENDPOINTS.auth.changePassword, {
+      currentPassword,
+      current_password: currentPassword,
+      newPassword,
+      new_password: newPassword,
+    });
   },
 
   async logout(refreshToken: string): Promise<void> {
-    await apiClient.post(ENDPOINTS.auth.logout, { refresh_token: refreshToken });
+    await apiClient.post(ENDPOINTS.auth.logout, {
+      refreshToken,
+      refresh_token: refreshToken,
+    });
   },
 
   async me(): Promise<UserResponse> {
-    const res = await apiClient.get<UserResponse>(ENDPOINTS.auth.me);
-    return res.data;
+    const res = await apiClient.get<any>(ENDPOINTS.auth.me);
+    return res.data?.result || res.data;
+  },
+
+  async updateProfile(payload: { username?: string }): Promise<UserResponse> {
+    const res = await apiClient.put<any>(ENDPOINTS.auth.me, payload);
+    return res.data?.result || res.data;
   },
 };

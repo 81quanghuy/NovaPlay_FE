@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { userService } from '@/features/user/services/userService';
 
 export interface WatchHistoryItem {
   movieId: string;
@@ -13,6 +14,7 @@ interface HistoryState {
   saveProgress: (movieId: string, episode?: number, progressPercent?: number) => void;
   removeFromHistory: (movieId: string) => void;
   clearHistory: () => void;
+  syncFromBackend: () => Promise<void>;
 }
 
 export const useHistoryStore = create<HistoryState>()(
@@ -49,6 +51,15 @@ export const useHistoryStore = create<HistoryState>()(
             ].slice(0, 20), // Lưu tối đa 20 phim gần nhất
           };
         });
+
+        // Sync with user-service backend
+        userService
+          .saveWatchProgress({
+            movieId,
+            progressPercent,
+            durationSeconds: 7200,
+          })
+          .catch(() => {});
       },
 
       removeFromHistory: (movieId) => {
@@ -59,6 +70,20 @@ export const useHistoryStore = create<HistoryState>()(
 
       clearHistory: () => {
         set({ history: [] });
+      },
+
+      syncFromBackend: async () => {
+        const progressList = await userService.getWatchProgress();
+        if (progressList && progressList.length > 0) {
+          set({
+            history: progressList.map((p) => ({
+              movieId: p.movieId,
+              episode: 1,
+              progressPercent: p.progressPercent,
+              updatedAt: new Date(p.updatedAt).getTime(),
+            })),
+          });
+        }
       },
     }),
     {

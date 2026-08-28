@@ -7,7 +7,6 @@ import { useChangePassword } from '../hooks/useChangePassword';
 import { PasswordInput } from '../components/PasswordInput';
 import { Button } from '../components/Button';
 import { Alert } from '../components/Alert';
-import { Navbar } from '@/components/layout/Navbar';
 import { PATHS } from '@/routes/paths';
 
 
@@ -31,7 +30,6 @@ export function ChangePasswordPage() {
 
   return (
     <div className="min-h-screen bg-bg text-fg-1">
-      <Navbar />
       <main className="max-w-container mx-auto px-6 py-12 flex justify-center">
         <div className="w-full max-w-[480px] bg-surface border border-border rounded-xl shadow-lg p-8">
           <h3 className="font-display font-bold text-2xl text-fg mb-1.5">Đổi Mật Khẩu</h3>
